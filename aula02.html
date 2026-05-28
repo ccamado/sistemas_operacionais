@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 02 – Extensões e Aplicativos | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#16a34a;--cor2:#15803d;--cor-light:#dcfce7;--cor-mid:#86efac;--bg:#f0fdf4;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#86efac;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#166534;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.8;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    tr:hover td{background:#f8fafc;}
+    code{background:#f1f5f9;padding:.1rem .4rem;border-radius:5px;font-size:.85em;}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.1rem;flex-shrink:0;}
+    /* RESUMO */
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;}
+    .btn-copiar:hover{background:#d97706;}
+    .btn-copiar.copiado{background:#16a34a;}
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#14532d,#166534);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.8;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#4ade80;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#4ade80;color:#14532d;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;transition:background .2s;}
+    .btn-prox:hover{background:#22c55e;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.85;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#4ade80;color:#14532d;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+    @media(max-width:520px){.cards{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.7">2ª Semana · 14/05/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">📂 Aula 02 — Extensões e Aplicativos Essenciais</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio</div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Entender o que é uma extensão de arquivo, qual <strong>tipo</strong> ela representa e qual <strong>aplicativo</strong> é usado para abri-la. Vamos conhecer os formatos de PDF, áudio, vídeo e imagem mais usados.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📖 Conteúdo</div>
+
+    <div class="destaque info">
+      🔤 <strong>O que é uma extensão?</strong><br>
+      É o "sobrenome" do arquivo — aparece depois do ponto no nome. Exemplo: <code>foto.JPG</code> → a extensão é <code>.jpg</code> e indica que é uma <strong>imagem</strong>. A extensão diz ao sistema operacional qual programa deve abrir aquele arquivo!
+    </div>
+
+    <div class="destaque dica">
+      🗺️ <strong>A regra de ouro:</strong> Extensão → Tipo de arquivo → Aplicativo para abrir<br>
+      Exemplo: <code>.mp4</code> → Vídeo → VLC Player
+    </div>
+
+    <table>
+      <thead><tr><th>Extensão</th><th>Tipo</th><th>Aplicativo para abrir</th></tr></thead>
+      <tbody>
+        <tr><td>📄 .PDF</td><td>Documento portátil</td><td>Adobe Reader, Edge, Chrome</td></tr>
+        <tr><td>📝 .DOCX</td><td>Texto formatado</td><td>Word, LibreOffice Writer</td></tr>
+        <tr><td>📊 .XLSX</td><td>Planilha</td><td>Excel, LibreOffice Calc</td></tr>
+        <tr><td>🎵 .MP3</td><td>Áudio comprimido</td><td>Spotify, Media Player, VLC</td></tr>
+        <tr><td>🎵 .WAV</td><td>Áudio sem compressão</td><td>Media Player, Audacity</td></tr>
+        <tr><td>🎬 .MP4</td><td>Vídeo (mais comum)</td><td>VLC, Media Player, YouTube</td></tr>
+        <tr><td>🎬 .MKV</td><td>Vídeo de alta qualidade</td><td>VLC Player</td></tr>
+        <tr><td>🖼️ .JPG</td><td>Foto/imagem comprimida</td><td>Fotos, Paint, Photoshop</td></tr>
+        <tr><td>🖼️ .PNG</td><td>Imagem com transparência</td><td>Fotos, Paint, GIMP</td></tr>
+        <tr><td>🖼️ .GIF</td><td>Imagem animada</td><td>Navegador, Fotos</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cards">
+      <div class="card-c"><div class="ic">📄</div><h3>PDF</h3><p>Parece igual em qualquer dispositivo. Ótimo para compartilhar sem perder formatação.</p></div>
+      <div class="card-c"><div class="ic">🎵</div><h3>Áudio</h3><p>MP3 = menor (comprimido). WAV = maior mas qualidade maior.</p></div>
+      <div class="card-c"><div class="ic">🎬</div><h3>Vídeo</h3><p>MP4 funciona em quase tudo. MKV guarda legendas dentro do arquivo.</p></div>
+      <div class="card-c"><div class="ic">🖼️</div><h3>Imagem</h3><p>JPG para fotos (menor tamanho). PNG para logos e fundo transparente.</p></div>
+    </div>
+
+    <ul class="lista">
+      <li><span class="bl">📌</span><div><strong>JPG vs PNG:</strong> JPG perde um pouco de qualidade para reduzir o tamanho. PNG mantém qualidade total e suporta fundo transparente.</div></li>
+      <li><span class="bl">📌</span><div><strong>MP3 vs WAV:</strong> MP3 comprime o áudio (menor). WAV guarda tudo (maior, mas melhor para edição profissional).</div></li>
+      <li><span class="bl">📌</span><div><strong>PDF:</strong> Ideal para documentos oficiais — parece igual no celular, tablet e computador, não importa o sistema.</div></li>
+    </ul>
+  </section>
+
+  <!-- RESUMO -->
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item">
+        <strong>🔤 O que é extensão de arquivo?</strong>
+        <p>É o "sobrenome" do arquivo, após o ponto. Ex: foto.JPG → extensão .jpg = imagem. Ela indica ao SO qual programa deve abrir o arquivo.</p>
+      </div>
+      <div class="resumo-item">
+        <strong>📄 PDF (.pdf)</strong>
+        <p>Documento que parece igual em qualquer dispositivo. Abrir com: Adobe Reader, Edge ou Chrome.</p>
+      </div>
+      <div class="resumo-item">
+        <strong>🎵 Áudio: MP3 vs WAV</strong>
+        <p>MP3 = comprimido, menor tamanho. WAV = sem compressão, melhor qualidade. Abrir com: VLC, Media Player, Spotify.</p>
+      </div>
+      <div class="resumo-item">
+        <strong>🎬 Vídeo: MP4 e MKV</strong>
+        <p>MP4 = compatível com tudo. MKV = alta qualidade, suporta legendas embutidas. Abrir com: VLC Player.</p>
+      </div>
+      <div class="resumo-item">
+        <strong>🖼️ Imagens: JPG e PNG</strong>
+        <p>JPG = fotos, menor tamanho (com compressão). PNG = logos e imagens com fundo transparente (sem perdas). GIF = imagem animada.</p>
+      </div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <!-- ATIVIDADE -->
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Abra o Explorador de Arquivos e localize 5 arquivos diferentes no computador</li>
+      <li><span class="bl">2️⃣</span> Anote a extensão de cada um e identifique: tipo e app para abrir</li>
+      <li><span class="bl">3️⃣</span> Monte a tabela no caderno: Nome | Extensão | Tipo | Aplicativo</li>
+    </ul>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 02</h3>
+        <p>10 perguntas · Extensões e Aplicativos</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas = [
+  {texto:"O que é a extensão de um arquivo?",opcoes:["O nome completo do arquivo","O 'sobrenome' após o ponto que indica o tipo","A pasta onde o arquivo está","O tamanho do arquivo em bytes"],certa:1,explicacao:"A extensão é a parte após o ponto (ex: .jpg, .mp3). Ela indica ao sistema operacional qual tipo de arquivo é e qual programa deve abri-lo."},
+  {texto:"Qual extensão corresponde a um arquivo de imagem COM suporte a fundo transparente?",opcoes:[".jpg",".gif",".png",".bmp"],certa:2,explicacao:"O PNG suporta transparência (fundo transparente), ideal para logos e ícones. O JPG não suporta transparência."},
+  {texto:"Você quer enviar um documento que deve ter a mesma aparência em qualquer dispositivo. Qual formato escolher?",opcoes:[".docx",".txt",".pdf",".rtf"],certa:2,explicacao:"O PDF (Portable Document Format) mantém a formatação idêntica em qualquer dispositivo, sistema ou tela."},
+  {texto:"Qual é a diferença entre MP3 e WAV?",opcoes:["MP3 é para vídeo, WAV é para imagem","MP3 é comprimido (menor), WAV é sem compressão (maior e com melhor qualidade)","São exatamente iguais","WAV é mais antigo e não funciona mais"],certa:1,explicacao:"MP3 reduz o tamanho comprimindo o áudio (perde um pouco da qualidade). WAV mantém o áudio original, sem compressão — por isso é maior."},
+  {texto:"Qual aplicativo é mais recomendado para abrir arquivos MKV?",opcoes:["Bloco de Notas","Adobe Reader","VLC Player","Microsoft Word"],certa:2,explicacao:"O VLC Player é um reprodutor versátil que abre praticamente qualquer formato de vídeo, incluindo MKV."},
+  {texto:"Um arquivo chama-se 'musica.MP3'. O que é 'MP3' nesse contexto?",opcoes:["O nome do arquivo","A extensão que indica que é um áudio comprimido","O tamanho do arquivo","O nome do aplicativo"],certa:1,explicacao:"'MP3' é a extensão do arquivo, que aparece após o ponto. Ela indica que é um arquivo de áudio comprimido."},
+  {texto:"Qual extensão de imagem é melhor para salvar FOTOS (menor tamanho de arquivo)?",opcoes:[".png",".gif",".jpg",".bmp"],certa:2,explicacao:"O JPG/JPEG é o formato ideal para fotos. Ele usa compressão que reduz muito o tamanho mantendo qualidade visual aceitável."},
+  {texto:"Qual tipo de arquivo é o .GIF famoso na internet?",opcoes:["Vídeo de alta definição","Documento de texto","Imagem animada","Áudio comprimido"],certa:2,explicacao:"O GIF é um formato de imagem que suporta animações simples. Por isso é muito usado em memes e reações nas redes sociais!"},
+  {texto:"Para editar uma planilha com cálculos e gráficos, qual extensão você vai abrir?",opcoes:[".docx",".xlsx",".mp4",".pdf"],certa:1,explicacao:"O .XLSX é o formato de planilhas do Microsoft Excel (ou LibreOffice Calc). Permite fórmulas, cálculos e gráficos."},
+  {texto:"Um amigo te manda um arquivo 'aula.DOCX'. Qual programa você precisa para abrir?",opcoes:["VLC Player","Adobe Reader","Microsoft Word ou LibreOffice Writer","Windows Media Player"],certa:2,explicacao:"O .DOCX é o formato de documentos de texto do Microsoft Word. O LibreOffice Writer também abre esse formato gratuitamente."}
+];
+
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 02: EXTENSÕES E APLICATIVOS\n\n🔤 O QUE É EXTENSÃO?\nÉ o "sobrenome" do arquivo, após o ponto. Ex: foto.JPG → .jpg = imagem. A extensão indica ao SO qual programa deve abrir o arquivo.\n\n📄 PDF (.pdf)\nDocumento que parece igual em qualquer dispositivo. Abrir com: Adobe Reader, Edge ou Chrome.\n\n🎵 ÁUDIO: MP3 vs WAV\nMP3 = comprimido, menor tamanho. WAV = sem compressão, melhor qualidade.\n\n🎬 VÍDEO: MP4 e MKV\nMP4 = compatível com tudo. MKV = alta qualidade, suporta legendas embutidas. VLC Player abre ambos.\n\n🖼️ IMAGENS: JPG e PNG\nJPG = fotos, menor tamanho. PNG = logos e fundo transparente. GIF = imagem animada.`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+iniciarQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 04 – Armazenamento em Nuvem | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#7c3aed;--cor2:#6d28d9;--cor-light:#ede9fe;--cor-mid:#c4b5fd;--bg:#faf5ff;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;position:relative;}
+    .badge-hoje{position:absolute;top:.8rem;right:1rem;background:#f9a8d4;color:#9d174d;font-size:.72rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+    header a{color:#c4b5fd;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#5b21b6;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.8;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    tr:hover td{background:#f8fafc;}
+    code{background:#f1f5f9;padding:.1rem .4rem;border-radius:5px;font-size:.85em;}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .destaque.roxo{background:#ede9fe;border-left:4px solid #7c3aed;}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    /* ÁRVORE DE PASTAS */
+    .arvore{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.3rem;font-family:monospace;font-size:.88rem;line-height:1.8;margin:.8rem 0;}
+    .arvore .pasta{color:#93c5fd;}
+    .arvore .arquivo{color:#86efac;}
+    /* RESUMO */
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;}
+    .btn-copiar:hover{background:#d97706;}
+    .btn-copiar.copiado{background:#16a34a;}
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#4c1d95,#5b21b6);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.8;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#a78bfa;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#a78bfa;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.85;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#a78bfa;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+    @media(max-width:520px){.cards{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge-hoje">⭐ AULA DE HOJE</div>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.7">4ª Semana · 28/05/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">☁️ Aula 04 — Armazenamento em Nuvem</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio</div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Entender o que é armazenamento em nuvem, criar uma estrutura de pastas organizada, salvar arquivos e compreender a diferença entre <strong>link</strong> e <strong>arquivo</strong>.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">☁️ O que é a Nuvem?</div>
+
+    <div class="destaque roxo">
+      ☁️ <strong>Nuvem = servidor remoto acessível pela internet.</strong><br>
+      É como um HD externo gigante que fica em outro lugar do mundo. Você acessa de qualquer dispositivo — celular, tablet, computador — usando a internet. Seus arquivos ficam lá, seguros, mesmo que seu PC quebre!
+    </div>
+
+    <div class="cards">
+      <div class="card-c"><div class="ic">🔵</div><h3>Google Drive</h3><p>15 GB grátis. Integra com Docs, Sheets, Slides. Acesse em drive.google.com</p></div>
+      <div class="card-c"><div class="ic">🟦</div><h3>OneDrive</h3><p>5 GB grátis. Integra com Word, Excel, PowerPoint da Microsoft.</p></div>
+      <div class="card-c"><div class="ic">📦</div><h3>Dropbox</h3><p>2 GB grátis. Sincroniza automaticamente com pasta no PC.</p></div>
+      <div class="card-c"><div class="ic">🍎</div><h3>iCloud</h3><p>5 GB grátis. Exclusivo Apple — iPhone, iPad, Mac.</p></div>
+    </div>
+
+    <ul class="lista">
+      <li><span class="bl">✅</span><div><strong>Acesso de qualquer lugar</strong> — celular, tablet, computador em casa ou na escola</div></li>
+      <li><span class="bl">✅</span><div><strong>Backup automático</strong> — se o PC quebrar, seus arquivos estão salvos na nuvem</div></li>
+      <li><span class="bl">✅</span><div><strong>Compartilhamento fácil</strong> — envie um link em vez de arquivo pesado</div></li>
+      <li><span class="bl">✅</span><div><strong>Sincronização</strong> — edite no celular e aparece no computador automaticamente</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📁 Estrutura de Pastas Organizada</div>
+
+    <div class="arvore">
+      <span class="pasta">📁 Escola 2026</span><br>
+      &nbsp;&nbsp;<span class="pasta">└── 📁 1º Ano</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pasta">├── 📁 Português</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pasta">├── 📁 Matemática</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pasta">└── 📁 Informática</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arquivo">├── 📄 Atividade01.pdf</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arquivo">├── 🖼️ Captura.png</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arquivo">└── 📝 Anotacoes.docx</span>
+    </div>
+
+    <div class="destaque dica">
+      💡 <strong>Dica de organização:</strong> Nomeie pastas com clareza — sem espaços, usando datas quando necessário: <code>Trabalho_Portugues_Maio2026</code>. Assim você encontra tudo fácil!
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🔗 Link × Arquivo — qual a diferença?</div>
+
+    <table>
+      <thead><tr><th></th><th>📎 Arquivo</th><th>🔗 Link (URL)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>O que é?</strong></td><td>O arquivo em si (ocupa espaço no HD)</td><td>Um "endereço" que aponta para o arquivo</td></tr>
+        <tr><td><strong>Exemplo</strong></td><td><code>relatorio.pdf</code> salvo no PC</td><td><code>drive.google.com/file/d/abc123</code></td></tr>
+        <tr><td><strong>Vantagem</strong></td><td>Funciona sem internet</td><td>Sempre atualizado, não ocupa espaço</td></tr>
+        <tr><td><strong>Desvantagem</strong></td><td>Pode ficar desatualizado</td><td>Precisa de internet para acessar</td></tr>
+        <tr><td><strong>Usar quando?</strong></td><td>Guardar localmente, sem internet</td><td>Compartilhar com alguém rapidamente</td></tr>
+      </tbody>
+    </table>
+
+    <div class="destaque info">
+      📚 <strong>Analogia:</strong> O arquivo é como um livro físico na sua estante. O link é como o número de chamada da biblioteca — você não tem o livro, mas sabe exatamente onde encontrá-lo!
+    </div>
+  </section>
+
+  <!-- RESUMO -->
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item">
+        <strong>☁️ O que é Nuvem?</strong>
+        <p>Servidor remoto acessível pela internet. Guarda arquivos de qualquer lugar, mesmo que o PC quebre. Exemplos: Google Drive (15GB grátis), OneDrive (5GB), Dropbox (2GB), iCloud (5GB).</p>
+      </div>
+      <div class="resumo-item">
+        <strong>📁 Estrutura de Pastas</strong>
+        <p>Organizar em hierarquia: Escola 2026 → 1º Ano → Informática → arquivos. Nomes claros, sem espaços, com datas quando necessário.</p>
+      </div>
+      <div class="resumo-item">
+        <strong>🔗 Link × Arquivo</strong>
+        <p>Arquivo = o dado em si (ocupa espaço, funciona offline). Link = endereço que aponta para o arquivo (não ocupa espaço, sempre atualizado, precisa de internet).</p>
+      </div>
+      <div class="resumo-item">
+        <strong>✅ Vantagens da Nuvem</strong>
+        <p>Acesso de qualquer lugar; backup automático; compartilhamento fácil por link; sincronização entre dispositivos.</p>
+      </div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <!-- ATIVIDADE -->
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática — HOJE (28/05)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Acesse o <strong>Google Drive</strong> em <a href="https://drive.google.com" target="_blank" style="color:var(--cor)">drive.google.com</a></li>
+      <li><span class="bl">2️⃣</span> Crie a estrutura: <code>Escola 2026 → 1º Ano → Informática</code></li>
+      <li><span class="bl">3️⃣</span> Suba 3 arquivos dentro da pasta Informática</li>
+      <li><span class="bl">4️⃣</span> Gere um link de compartilhamento de um arquivo e compartilhe no grupo</li>
+      <li><span class="bl">5️⃣</span> Explique com suas palavras: <em>"Qual a diferença entre enviar o arquivo e enviar o link?"</em></li>
+    </ul>
+
+    <div class="destaque roxo">
+      ⭐ <strong>Bônus:</strong> Crie um documento no Google Docs chamado <code>Minhas Anotações</code> e escreva um resumo do que aprendeu hoje!
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 04</h3>
+        <p>10 perguntas · Armazenamento em Nuvem</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas = [
+  {texto:"O que é armazenamento em nuvem?",opcoes:["Um HD físico dentro do computador","Guardar arquivos em servidores remotos acessíveis pela internet","Um tipo de pen drive","Um programa de backup que fica no PC"],certa:1,explicacao:"A nuvem são servidores remotos (em outros lugares do mundo) onde você guarda arquivos. Você acessa de qualquer dispositivo conectado à internet."},
+  {texto:"Qual serviço de nuvem oferece 15 GB gratuitos e integra com o Google Docs?",opcoes:["iCloud","OneDrive","Google Drive","Dropbox"],certa:2,explicacao:"O Google Drive oferece 15 GB grátis com uma conta Google e integra perfeitamente com Docs, Sheets e Slides."},
+  {texto:"Qual a principal DIFERENÇA entre enviar um arquivo e enviar um link?",opcoes:["São exatamente iguais","O link é sempre menor em tamanho","O arquivo é o dado em si; o link é um endereço que aponta para o arquivo","O arquivo funciona só com internet"],certa:2,explicacao:"O arquivo é o dado real (ocupa espaço). O link é um 'endereço' que aponta para onde o arquivo está — não ocupa espaço e sempre mostra a versão mais atualizada."},
+  {texto:"Qual VANTAGEM o armazenamento em nuvem tem em relação ao HD local?",opcoes:["Funciona sem internet","É mais rápido para abrir","Backup automático — se o PC quebrar, os arquivos estão seguros","Não precisa de conta para usar"],certa:2,explicacao:"O backup automático na nuvem protege seus arquivos mesmo se o computador quebrar, for roubado ou tiver um problema."},
+  {texto:"Você quer compartilhar um arquivo grande com um colega pelo WhatsApp. O que é mais prático?",opcoes:["Enviar o arquivo diretamente (pode demorar ou não caber)","Salvar na nuvem e enviar o link (rápido e sem limite de tamanho)","Imprimir e fotografar","Copiar em um pen drive"],certa:1,explicacao:"Salvar na nuvem e enviar o link é muito mais prático — não tem limite de tamanho e o colega acessa direto pelo navegador ou app."},
+  {texto:"Uma boa estrutura de pastas na nuvem seria:",opcoes:["Salvar tudo na pasta raiz sem organização","Escola 2026 → 1º Ano → Informática → arquivos","Uma pasta com nome 'Coisas'","Guardar tudo na lixeira"],certa:1,explicacao:"Organizar em hierarquia (geral → específico) facilita encontrar os arquivos depois. Nomes claros e descritivos são essenciais."},
+  {texto:"Se você edita um arquivo no Google Drive pelo celular, o que acontece quando abre no computador?",opcoes:["O arquivo fica diferente em cada dispositivo","Nada, os dois são independentes","As mudanças aparecem automaticamente — sincronização em tempo real","Precisa copiar o arquivo manualmente"],certa:2,explicacao:"A nuvem sincroniza automaticamente. Qualquer edição feita em um dispositivo aparece em todos os outros que têm acesso ao mesmo arquivo."},
+  {texto:"Qual serviço de nuvem é EXCLUSIVO para dispositivos Apple?",opcoes:["Google Drive","OneDrive","Dropbox","iCloud"],certa:3,explicacao:"O iCloud é o serviço de nuvem da Apple, disponível para iPhone, iPad e Mac. Oferece 5 GB gratuitos."},
+  {texto:"Por que é importante nomear bem as pastas e arquivos na nuvem?",opcoes:["Para impressionar os professores","Para facilitar encontrar os arquivos depois, sem perder tempo","O nome não importa, só o conteúdo","Para ocupar menos espaço"],certa:1,explicacao:"Nomes claros e descritivos (ex: Trabalho_Portugues_Maio2026) economizam tempo e evitam confusão quando você tiver muitos arquivos salvos."},
+  {texto:"Um link de compartilhamento do Google Drive exige o quê para funcionar?",opcoes:["Um pen drive conectado","Acesso à internet","O arquivo baixado no PC","Uma impressora"],certa:1,explicacao:"O link aponta para um arquivo nos servidores do Google. Para acessá-lo, você precisa de uma conexão com a internet — diferente de um arquivo local que funciona offline."}
+];
+
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 04: ARMAZENAMENTO EM NUVEM\n\n☁️ O QUE É NUVEM?\nServidor remoto acessível pela internet. Guarda arquivos de qualquer lugar, mesmo que o PC quebre.\nExemplos: Google Drive (15GB grátis), OneDrive (5GB), Dropbox (2GB), iCloud (5GB - só Apple).\n\n📁 ESTRUTURA DE PASTAS\nOrganizar em hierarquia: Escola 2026 → 1º Ano → Informática → arquivos.\nNomes claros, sem espaços, com datas quando necessário.\n\n🔗 LINK × ARQUIVO\nArquivo = o dado em si (ocupa espaço, funciona offline).\nLink = endereço que aponta para o arquivo (não ocupa espaço, sempre atualizado, precisa de internet).\n\n✅ VANTAGENS DA NUVEM\nAcesso de qualquer lugar; backup automático; compartilhamento fácil por link; sincronização entre dispositivos.`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+iniciarQuiz();
+</script>
+</body>
+</html>

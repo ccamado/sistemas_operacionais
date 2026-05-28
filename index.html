@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistemas Operacionais – 1º Ano | 2º Bimestre 2026</title>
+  <title>Sistemas Operacionais – 1º Ano | Prof. Claudio</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -11,672 +11,488 @@
       --verde:   #16a34a;
       --laranja: #ea580c;
       --roxo:    #7c3aed;
-      --amarelo: #fbbf24;
-      --bg:      #f0f4ff;
-      --card:    #ffffff;
-      --texto:   #1e293b;
-      --sub:     #64748b;
+      --rosa:    #db2777;
+      --ciano:   #0891b2;
+      --bg:      #0f172a;
+      --card:    #1e293b;
+      --texto:   #f1f5f9;
+      --sub:     #94a3b8;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--texto); min-height: 100vh; }
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--bg);
-      color: var(--texto);
-      min-height: 100vh;
-    }
-
-    /* ── TOPO ── */
-    header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #7c3aed 100%);
-      color: white;
-      text-align: center;
-      padding: 2.5rem 1rem 2rem;
+    /* HERO */
+    .hero {
       position: relative;
+      text-align: center;
+      padding: 4rem 1rem 3rem;
       overflow: hidden;
     }
-    header::before {
+    .hero::before {
       content: '';
       position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,.35) 0%, transparent 70%),
+                  radial-gradient(ellipse at 80% 80%, rgba(124,58,237,.2) 0%, transparent 60%);
     }
-    header h1 { font-family: 'Fredoka One', cursive; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: 1px; position: relative; }
-    header p  { font-size: 1rem; opacity: .85; margin-top: .4rem; position: relative; }
-
-    /* ── NAV ── */
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .6rem;
-      padding: 1rem;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    nav a {
-      text-decoration: none;
-      padding: .45rem 1.1rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: .9rem;
-      transition: all .2s;
-    }
-    nav a:nth-child(1) { background:#dbeafe; color:#1e40af; }
-    nav a:nth-child(2) { background:#dcfce7; color:#15803d; }
-    nav a:nth-child(3) { background:#ffedd5; color:#c2410c; }
-    nav a:nth-child(4) { background:#ede9fe; color:#6d28d9; }
-    nav a:hover { filter: brightness(.9) saturate(1.2); transform: translateY(-1px); }
-
-    /* ── CONTAINER ── */
-    main { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 4rem; }
-
-    /* ── SEÇÃO / AULA ── */
-    .aula {
-      background: var(--card);
-      border-radius: 20px;
-      margin-bottom: 3rem;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,.07);
-    }
-
-    .aula-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1.4rem 1.8rem;
-      color: white;
-    }
-    .aula-header .numero {
-      font-family: 'Fredoka One', cursive;
-      font-size: 2.8rem;
-      line-height: 1;
-      opacity: .9;
-    }
-    .aula-header .info h2 { font-family: 'Fredoka One', cursive; font-size: 1.35rem; }
-    .aula-header .info span { font-size: .85rem; opacity: .85; }
-
-    .aula:nth-child(1) .aula-header { background: linear-gradient(90deg,#1d4ed8,#3b82f6); }
-    .aula:nth-child(2) .aula-header { background: linear-gradient(90deg,#166534,#22c55e); }
-    .aula:nth-child(3) .aula-header { background: linear-gradient(90deg,#9a3412,#f97316); }
-    .aula:nth-child(4) .aula-header { background: linear-gradient(90deg,#5b21b6,#a855f7); }
-
-    .aula-body { padding: 1.6rem 1.8rem; }
-
-    /* ── BADGE revisão ── */
-    .badge-revisao {
+    .hero-badge {
       display: inline-block;
-      background: #fef9c3;
-      color: #854d0e;
-      font-weight: 700;
-      font-size: .8rem;
-      padding: .2rem .7rem;
-      border-radius: 999px;
-      border: 1px solid #fde68a;
-      margin-bottom: .8rem;
-    }
-
-    /* ── OBJETIVO ── */
-    .objetivo {
-      background: #f8fafc;
-      border-left: 4px solid;
-      padding: .8rem 1rem;
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 1.4rem;
-      font-size: .95rem;
-    }
-    .aula:nth-child(1) .objetivo { border-color: #3b82f6; }
-    .aula:nth-child(2) .objetivo { border-color: #22c55e; }
-    .aula:nth-child(3) .objetivo { border-color: #f97316; }
-    .aula:nth-child(4) .objetivo { border-color: #a855f7; }
-
-    /* ── CARDS DE CONTEÚDO ── */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.4rem; }
-
-    .card-item {
-      border-radius: 14px;
-      padding: 1.1rem;
-      text-align: center;
-    }
-    .card-item .icon { font-size: 2.2rem; margin-bottom: .4rem; }
-    .card-item h3 { font-size: .95rem; font-weight: 700; margin-bottom: .3rem; }
-    .card-item p  { font-size: .82rem; color: var(--sub); }
-
-    /* cores por aula */
-    .aula:nth-child(1) .card-item { background: #eff6ff; }
-    .aula:nth-child(2) .card-item { background: #f0fdf4; }
-    .aula:nth-child(3) .card-item { background: #fff7ed; }
-    .aula:nth-child(4) .card-item { background: #faf5ff; }
-
-    /* ── IMAGEM ILUSTRATIVA (placeholder com emoji grande) ── */
-    .ilustra {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .8rem;
-      margin: 1rem 0;
-    }
-    .ilustra-box {
-      flex: 1 1 140px;
-      min-height: 120px;
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: .3rem;
-      font-size: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .ilustra-box span.label {
+      background: rgba(37,99,235,.2);
+      border: 1px solid rgba(37,99,235,.4);
+      color: #93c5fd;
       font-size: .78rem;
       font-weight: 700;
-      opacity: .75;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: .3rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+      position: relative;
     }
-    .aula:nth-child(1) .ilustra-box { background: linear-gradient(135deg,#dbeafe,#bfdbfe); }
-    .aula:nth-child(2) .ilustra-box { background: linear-gradient(135deg,#dcfce7,#bbf7d0); }
-    .aula:nth-child(3) .ilustra-box { background: linear-gradient(135deg,#ffedd5,#fed7aa); }
-    .aula:nth-child(4) .ilustra-box { background: linear-gradient(135deg,#ede9fe,#ddd6fe); }
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.1;
+      position: relative;
+      background: linear-gradient(135deg, #e0f2fe, #a5f3fc, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--sub);
+      margin-top: .8rem;
+      font-size: 1rem;
+      position: relative;
+    }
+    .hero-icons {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
-    /* ── TABELA ── */
-    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .88rem; }
-    th { padding: .6rem .8rem; text-align: left; color: white; }
-    td { padding: .55rem .8rem; border-bottom: 1px solid #f1f5f9; }
-    tr:last-child td { border: none; }
-    tr:hover td { background: #f8fafc; }
-
-    .aula:nth-child(1) th { background:#3b82f6; }
-    .aula:nth-child(2) th { background:#22c55e; }
-    .aula:nth-child(3) th { background:#f97316; }
-    .aula:nth-child(4) th { background:#a855f7; }
-
-    /* ── LISTA ESTILIZADA ── */
-    .lista-legal { list-style: none; padding: 0; margin: .8rem 0 1.2rem; }
-    .lista-legal li {
+    /* PROGRESSO */
+    .progress-bar-wrap {
+      max-width: 600px;
+      margin: 1.5rem auto 0;
+      position: relative;
+    }
+    .progress-label {
       display: flex;
-      align-items: flex-start;
-      gap: .6rem;
-      padding: .5rem 0;
-      border-bottom: 1px dashed #e2e8f0;
-      font-size: .92rem;
+      justify-content: space-between;
+      font-size: .78rem;
+      color: var(--sub);
+      margin-bottom: .4rem;
     }
-    .lista-legal li:last-child { border: none; }
-    .lista-legal .bullet { font-size: 1.2rem; flex-shrink: 0; }
+    .progress-bar {
+      height: 8px;
+      background: #334155;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      border-radius: 999px;
+      transition: width 1s ease;
+    }
 
-    /* ── CAIXAS DESTAQUE ── */
-    .destaque {
-      border-radius: 12px;
-      padding: .9rem 1.1rem;
-      margin: 1rem 0;
-      font-size: .9rem;
-    }
-    .destaque.dica   { background:#fef9c3; border-left: 4px solid #fbbf24; }
-    .destaque.alerta { background:#fee2e2; border-left: 4px solid #ef4444; }
-    .destaque.info   { background:#dbeafe; border-left: 4px solid #3b82f6; }
-    .destaque.roxo   { background:#ede9fe; border-left: 4px solid #7c3aed; }
-    .destaque strong { font-weight: 900; }
+    /* GRID DE AULAS */
+    main { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem 4rem; }
 
-    /* ── ATIVIDADE ── */
-    .atividade {
-      background: #f0fdf4;
-      border: 2px dashed #86efac;
-      border-radius: 14px;
-      padding: 1rem 1.2rem;
-      margin-top: 1.2rem;
-    }
-    .atividade h4 { color: #15803d; font-size: 1rem; margin-bottom: .5rem; }
-
-    /* ── REVISÃO MINI ── */
-    .revisao-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: .8rem;
-      margin: 1rem 0;
-    }
-    .revisao-card {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 12px;
-      padding: .9rem;
-      font-size: .85rem;
+    .secao-titulo {
       text-align: center;
+      margin-bottom: 1.5rem;
     }
-    .revisao-card .re-icon { font-size: 1.8rem; margin-bottom: .3rem; }
-    .revisao-card b { display: block; margin-bottom: .2rem; font-size: .9rem; }
+    .secao-titulo h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      color: #cbd5e1;
+    }
+    .secao-titulo p { color: var(--sub); font-size: .88rem; margin-top: .2rem; }
 
-    /* ── FOOTER ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+
+    /* CARD AULA */
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      position: relative;
+    }
+    .card:hover:not(.em-breve) {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.4);
+      border-color: #475569;
+    }
+    .card-top {
+      padding: 1.2rem 1.2rem .8rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .card-meta { flex: 1; }
+    .card-meta .semana {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+    .card-meta .data {
+      font-size: .88rem;
+      color: var(--sub);
+      margin-top: .1rem;
+    }
+    .card-body { padding: 0 1.2rem 1.2rem; }
+    .card-body h3 { font-size: 1rem; font-weight: 800; margin-bottom: .4rem; line-height: 1.3; }
+    .card-body p { font-size: .82rem; color: var(--sub); line-height: 1.5; }
+
+    .card-footer {
+      padding: .8rem 1.2rem;
+      border-top: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tag-revisao {
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      background: #fef9c3;
+      color: #854d0e;
+      border: 1px solid #fde68a;
+    }
+    .tag-nova {
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+    .tag-hoje {
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      background: #fce7f3;
+      color: #9d174d;
+      border: 1px solid #f9a8d4;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+    .btn-aula {
+      display: inline-block;
+      padding: .4rem 1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .8rem;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-aula:hover { transform: scale(1.05); }
+
+    /* EM BREVE */
+    .em-breve { opacity: .55; }
+    .em-breve .card-footer { justify-content: flex-end; }
+    .btn-breve {
+      display: inline-block;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .78rem;
+      background: #1e293b;
+      color: #475569;
+      border: 1px solid #334155;
+      cursor: not-allowed;
+    }
+    .lock-icon { font-size: .9rem; margin-right: .2rem; }
+
+    /* CORES POR SEMANA */
+    .s1 .card-icon { background: rgba(37,99,235,.15); }
+    .s1 .card-meta .semana { color: #93c5fd; }
+    .s1 .btn-aula { background: #2563eb; color: white; }
+    .s1 .btn-aula:hover { background: #1d4ed8; }
+
+    .s2 .card-icon { background: rgba(22,163,74,.15); }
+    .s2 .card-meta .semana { color: #86efac; }
+    .s2 .btn-aula { background: #16a34a; color: white; }
+    .s2 .btn-aula:hover { background: #15803d; }
+
+    .s3 .card-icon { background: rgba(234,88,12,.15); }
+    .s3 .card-meta .semana { color: #fdba74; }
+    .s3 .btn-aula { background: #ea580c; color: white; }
+    .s3 .btn-aula:hover { background: #c2410c; }
+
+    .s4 .card-icon { background: rgba(124,58,237,.15); }
+    .s4 .card-meta .semana { color: #c4b5fd; }
+    .s4 .btn-aula { background: #7c3aed; color: white; }
+    .s4 .btn-aula:hover { background: #6d28d9; }
+
+    .s5 .card-icon { background: rgba(219,39,119,.15); }
+    .s5 .card-meta .semana { color: #f9a8d4; }
+
+    .s6 .card-icon { background: rgba(8,145,178,.15); }
+    .s6 .card-meta .semana { color: #67e8f9; }
+
+    .s7 .card-icon { background: rgba(37,99,235,.15); }
+    .s7 .card-meta .semana { color: #93c5fd; }
+
+    .s8 .card-icon { background: rgba(22,163,74,.15); }
+    .s8 .card-meta .semana { color: #86efac; }
+
+    .s9 .card-icon { background: rgba(234,88,12,.15); }
+    .s9 .card-meta .semana { color: #fdba74; }
+
+    .s10 .card-icon { background: rgba(124,58,237,.15); }
+    .s10 .card-meta .semana { color: #c4b5fd; }
+
+    /* FOOTER */
     footer {
       text-align: center;
-      padding: 1.5rem;
-      background: #1e293b;
-      color: #94a3b8;
+      padding: 2rem 1rem;
+      border-top: 1px solid #1e293b;
+      color: #475569;
       font-size: .82rem;
     }
-
-    @media (max-width: 560px) {
-      .aula-body { padding: 1.1rem; }
-      .cards { grid-template-columns: 1fr 1fr; }
-    }
+    footer strong { color: #64748b; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>💻 Sistemas Operacionais</h1>
-  <p>1º Ano – UC III &nbsp;|&nbsp; 2º Bimestre 2026 &nbsp;|&nbsp; Prof. Claudio</p>
-</header>
+<div class="hero">
+  <div class="hero-icons">💻</div>
+  <div class="hero-badge">UC III · 2º Bimestre 2026 · 1º Ano A</div>
+  <h1>Sistemas Operacionais</h1>
+  <p>Prof. Claudio Amado · CEPE Ezequiel Ferreira Lima · Matutino</p>
 
-<nav>
-  <a href="#aula1">📸 07/05 – Ferramentas</a>
-  <a href="#aula2">📂 14/05 – Extensões</a>
-  <a href="#aula3">🌐 21/05 – Internet</a>
-  <a href="#aula4">☁️ 28/05 – Nuvem</a>
-</nav>
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>📚 Progresso do bimestre</span>
+      <span>4 de 10 aulas</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+</div>
 
 <main>
-
-<!-- ════════════════════════════════════════════════ AULA 1 ══ -->
-<section class="aula" id="aula1">
-  <div class="aula-header">
-    <div class="numero">01</div>
-    <div class="info">
-      <span>📅 07 de maio de 2026</span>
-      <h2>Ferramentas e Utilitários do Windows (Parte 1)</h2>
-    </div>
+  <div class="secao-titulo">
+    <h2>📅 Aulas do 2º Bimestre</h2>
+    <p>Clique em uma aula disponível para acessar o conteúdo, resumo e quiz</p>
   </div>
 
-  <div class="aula-body">
-    <div class="badge-revisao">🔁 Aula de REVISÃO</div>
+  <div class="grid">
 
-    <div class="objetivo">
-      🎯 <strong>Objetivo:</strong> Conhecer e usar as ferramentas básicas do Windows: captura de tela, Paint, Bloco de Notas / WordPad e como encontrar informações do sistema.
-    </div>
-
-    <div class="ilustra">
-      <div class="ilustra-box">🖼️<span class="label">Captura de Tela</span></div>
-      <div class="ilustra-box">🎨<span class="label">Paint</span></div>
-      <div class="ilustra-box">📝<span class="label">Bloco de Notas</span></div>
-      <div class="ilustra-box">🔍<span class="label">Informações</span></div>
-    </div>
-
-    <div class="revisao-grid">
-      <div class="revisao-card">
-        <div class="re-icon">📸</div>
-        <b>Print Screen</b>
-        Tecla <code>PrtSc</code> ou <code>Win + Shift + S</code> para capturar a tela inteira ou uma parte
-      </div>
-      <div class="revisao-card">
-        <div class="re-icon">🎨</div>
-        <b>Paint</b>
-        Editar imagens, recortar, adicionar texto, salvar em diferentes formatos
-      </div>
-      <div class="revisao-card">
-        <div class="re-icon">📝</div>
-        <b>Bloco de Notas</b>
-        Texto simples (.txt). Rápido e leve para anotações
-      </div>
-      <div class="revisao-card">
-        <div class="re-icon">📄</div>
-        <b>WordPad</b>
-        Texto com formatação básica (.rtf). Entre o Bloco de Notas e o Word
-      </div>
-      <div class="revisao-card">
-        <div class="re-icon">🔍</div>
-        <b>Localizar Sistema</b>
-        <code>Win + Pause</code> ou pesquisar <em>dxdiag</em> no menu iniciar
-      </div>
-      <div class="revisao-card">
-        <div class="re-icon">💻</div>
-        <b>Informações do PC</b>
-        RAM, processador, versão do Windows – tudo em um lugar só
-      </div>
-    </div>
-
-    <div class="destaque dica">
-      💡 <strong>Dica prática:</strong> Para capturar só uma parte da tela, use <code>Win + Shift + S</code> e arraste o mouse sobre a área desejada. A imagem vai para a área de transferência — cole no Paint com <code>Ctrl + V</code>!
-    </div>
-
-    <table>
-      <thead><tr><th>Ferramenta</th><th>Para que serve</th><th>Como abrir</th></tr></thead>
-      <tbody>
-        <tr><td>📸 Captura de Tela</td><td>Tirar "foto" da tela do computador</td><td><code>Win + Shift + S</code></td></tr>
-        <tr><td>🎨 Paint</td><td>Editar e salvar imagens</td><td>Menu Iniciar → Paint</td></tr>
-        <tr><td>📝 Bloco de Notas</td><td>Anotar textos simples</td><td>Menu Iniciar → Notepad</td></tr>
-        <tr><td>📄 WordPad</td><td>Textos com formatação básica</td><td>Menu Iniciar → WordPad</td></tr>
-        <tr><td>🔍 Informações do Sistema</td><td>Ver RAM, processador, Windows</td><td><code>Win + Pause</code> ou <em>dxdiag</em></td></tr>
-      </tbody>
-    </table>
-
-    <div class="atividade">
-      <h4>✏️ Atividade Prática</h4>
-      <ul class="lista-legal">
-        <li><span class="bullet">1️⃣</span> Tire uma captura de tela usando <code>Win + Shift + S</code></li>
-        <li><span class="bullet">2️⃣</span> Cole no Paint, adicione seu nome escrito com a ferramenta de texto</li>
-        <li><span class="bullet">3️⃣</span> Salve como PNG na sua pasta</li>
-        <li><span class="bullet">4️⃣</span> Abra o <em>dxdiag</em> e anote o processador e a quantidade de RAM do seu computador</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════ AULA 2 ══ -->
-<section class="aula" id="aula2">
-  <div class="aula-header">
-    <div class="numero">02</div>
-    <div class="info">
-      <span>📅 14 de maio de 2026</span>
-      <h2>Extensões e Aplicativos Essenciais</h2>
-    </div>
-  </div>
-
-  <div class="aula-body">
-    <div class="badge-revisao">🔁 Aula de REVISÃO</div>
-
-    <div class="objetivo">
-      🎯 <strong>Objetivo:</strong> Entender o que é uma extensão de arquivo, qual tipo ela representa e qual aplicativo é usado para abri-la. Conhecer formatos de PDF, áudio, vídeo e imagem.
-    </div>
-
-    <div class="ilustra">
-      <div class="ilustra-box">📎<span class="label">Extensão</span></div>
-      <div class="ilustra-box">📄<span class="label">PDF</span></div>
-      <div class="ilustra-box">🎵<span class="label">Áudio</span></div>
-      <div class="ilustra-box">🎬<span class="label">Vídeo</span></div>
-      <div class="ilustra-box">🖼️<span class="label">Imagem</span></div>
-    </div>
-
-    <div class="destaque info">
-      🔤 <strong>O que é uma extensão?</strong><br>
-      É o "sobrenome" do arquivo — aparece depois do ponto no nome. Exemplo: <code>foto.JPG</code> — a extensão é <code>.jpg</code> e indica que é uma imagem!
-    </div>
-
-    <table>
-      <thead><tr><th>Extensão</th><th>Tipo</th><th>Aplicativo para abrir</th></tr></thead>
-      <tbody>
-        <tr><td>📄 .PDF</td><td>Documento portátil</td><td>Adobe Reader, Edge, Chrome</td></tr>
-        <tr><td>📝 .DOCX</td><td>Texto formatado</td><td>Word, LibreOffice Writer</td></tr>
-        <tr><td>📊 .XLSX</td><td>Planilha</td><td>Excel, LibreOffice Calc</td></tr>
-        <tr><td>🎵 .MP3</td><td>Áudio comprimido</td><td>Spotify, Media Player, VLC</td></tr>
-        <tr><td>🎵 .WAV</td><td>Áudio sem compressão</td><td>Media Player, Audacity</td></tr>
-        <tr><td>🎬 .MP4</td><td>Vídeo mais comum</td><td>VLC, Media Player</td></tr>
-        <tr><td>🎬 .MKV</td><td>Vídeo de alta qualidade</td><td>VLC Player</td></tr>
-        <tr><td>🖼️ .JPG</td><td>Foto/imagem comprimida</td><td>Fotos, Paint, Photoshop</td></tr>
-        <tr><td>🖼️ .PNG</td><td>Imagem com transparência</td><td>Fotos, Paint, GIMP</td></tr>
-        <tr><td>🖼️ .GIF</td><td>Imagem animada</td><td>Navegador, Fotos</td></tr>
-      </tbody>
-    </table>
-
-    <div class="cards">
-      <div class="card-item">
-        <div class="icon">📄</div>
-        <h3>PDF</h3>
-        <p>Parece sempre igual em qualquer dispositivo. Ótimo para compartilhar documentos!</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">🎵</div>
-        <h3>Áudio</h3>
-        <p>MP3 é menor (comprimido). WAV é maior mas com melhor qualidade.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">🎬</div>
-        <h3>Vídeo</h3>
-        <p>MP4 funciona em quase tudo. MKV guarda legendas dentro do arquivo.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">🖼️</div>
-        <h3>Imagem</h3>
-        <p>JPG para fotos (menor). PNG para logos e imagens com fundo transparente.</p>
-      </div>
-    </div>
-
-    <div class="destaque dica">
-      💡 <strong>Regra de ouro:</strong> Extensão → Tipo de arquivo → Aplicativo para abrir!<br>
-      Exemplo: <code>.mp4</code> → Vídeo → VLC Player
-    </div>
-
-    <div class="atividade">
-      <h4>✏️ Atividade Prática</h4>
-      <ul class="lista-legal">
-        <li><span class="bullet">1️⃣</span> Abra o explorador de arquivos e localize 5 arquivos diferentes no seu computador</li>
-        <li><span class="bullet">2️⃣</span> Anote a extensão de cada um e identifique o tipo e o app para abrir</li>
-        <li><span class="bullet">3️⃣</span> Complete a tabela: <em>Nome do arquivo | Extensão | Tipo | App</em></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════ AULA 3 ══ -->
-<section class="aula" id="aula3">
-  <div class="aula-header">
-    <div class="numero">03</div>
-    <div class="info">
-      <span>📅 21 de maio de 2026</span>
-      <h2>Internet com Ética e Segurança</h2>
-    </div>
-  </div>
-
-  <div class="aula-body">
-    <div class="badge-revisao">🔁 Aula de REVISÃO</div>
-
-    <div class="objetivo">
-      🎯 <strong>Objetivo:</strong> Identificar os principais usos da internet (navegação, e-mail, redes sociais, mensageiros), reconhecer 3 riscos digitais e aplicar 3 cuidados essenciais.
-    </div>
-
-    <div class="ilustra">
-      <div class="ilustra-box">🌐<span class="label">Navegar</span></div>
-      <div class="ilustra-box">📧<span class="label">E-mail</span></div>
-      <div class="ilustra-box">📱<span class="label">Redes Sociais</span></div>
-      <div class="ilustra-box">💬<span class="label">Mensageiros</span></div>
-    </div>
-
-    <h3 style="margin: 1rem 0 .5rem; font-size: 1.05rem;">🌐 Usos da Internet no dia a dia</h3>
-    <div class="cards">
-      <div class="card-item">
-        <div class="icon">🔍</div>
-        <h3>Navegação</h3>
-        <p>Pesquisar, ler notícias, assistir vídeos. Usamos Chrome, Firefox, Edge…</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">📧</div>
-        <h3>E-mail</h3>
-        <p>Comunicação formal. Gmail, Outlook. Usado para trabalho e escola.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">📸</div>
-        <h3>Redes Sociais</h3>
-        <p>Instagram, TikTok, X (Twitter). Compartilhar, interagir, criar conteúdo.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">💬</div>
-        <h3>Mensageiros</h3>
-        <p>WhatsApp, Telegram. Mensagens rápidas, grupos, chamadas de vídeo.</p>
-      </div>
-    </div>
-
-    <h3 style="margin: 1.2rem 0 .5rem; font-size: 1.05rem;">⚠️ 3 Riscos Digitais que você precisa conhecer</h3>
-
-    <ul class="lista-legal">
-      <li>
-        <span class="bullet">🎣</span>
-        <div>
-          <strong>Phishing (Golpe de Pesca)</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Mensagens falsas que imitam bancos, lojas ou serviços para roubar seus dados. Ex.: "Parabéns, você ganhou um prêmio! Clique aqui…"</span>
+    <!-- AULA 1 -->
+    <div class="card s1">
+      <div class="card-top">
+        <div class="card-icon">📸</div>
+        <div class="card-meta">
+          <div class="semana">1ª Semana</div>
+          <div class="data">07 de maio de 2026</div>
         </div>
-      </li>
-      <li>
-        <span class="bullet">🦠</span>
-        <div>
-          <strong>Vírus / Malware</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Programas maliciosos que entram pelo computador ao baixar arquivos desconhecidos ou clicar em links suspeitos.</span>
-        </div>
-      </li>
-      <li>
-        <span class="bullet">😡</span>
-        <div>
-          <strong>Cyberbullying</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Perseguição, ofensas e humilhação nas redes sociais ou mensageiros. É crime no Brasil!</span>
-        </div>
-      </li>
-    </ul>
-
-    <div class="destaque alerta">
-      🚨 <strong>Atenção:</strong> Se receber uma mensagem pedindo senha, dados bancários ou pedindo que você clique em um link urgente — DESCONFIE. Golpistas criam urgência para você não pensar!
+      </div>
+      <div class="card-body">
+        <h3>Ferramentas e Utilitários (Parte 1)</h3>
+        <p>Captura de tela, Paint, Bloco de Notas, WordPad e como localizar informações do sistema.</p>
+      </div>
+      <div class="card-footer">
+        <span class="tag-revisao">🔁 Revisão</span>
+        <a class="btn-aula" href="aula01.html">Acessar →</a>
+      </div>
     </div>
 
-    <h3 style="margin: 1.2rem 0 .5rem; font-size: 1.05rem;">🛡️ 3 Cuidados Essenciais na Internet</h3>
-
-    <ul class="lista-legal">
-      <li>
-        <span class="bullet">🔒</span>
-        <div>
-          <strong>Use senhas fortes e diferentes</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Combine letras maiúsculas, minúsculas, números e símbolos. Nunca use "123456" ou seu nome!</span>
+    <!-- AULA 2 -->
+    <div class="card s2">
+      <div class="card-top">
+        <div class="card-icon">📂</div>
+        <div class="card-meta">
+          <div class="semana">2ª Semana</div>
+          <div class="data">14 de maio de 2026</div>
         </div>
-      </li>
-      <li>
-        <span class="bullet">🤔</span>
-        <div>
-          <strong>Pense antes de clicar</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Links desconhecidos, arquivos de remetentes estranhos e promoções boas demais para ser verdade são armadilhas.</span>
-        </div>
-      </li>
-      <li>
-        <span class="bullet">🙅</span>
-        <div>
-          <strong>Não compartilhe dados pessoais</strong><br>
-          <span style="color:var(--sub);font-size:.88rem;">Endereço, telefone, fotos de documentos e senhas nunca devem ser compartilhados por chat ou redes sociais.</span>
-        </div>
-      </li>
-    </ul>
-
-    <div class="atividade">
-      <h4>✏️ Atividade Prática</h4>
-      <ul class="lista-legal">
-        <li><span class="bullet">1️⃣</span> Em dupla, crie um exemplo de mensagem de phishing (falsa) e mostre quais elementos são suspeitos</li>
-        <li><span class="bullet">2️⃣</span> Liste 3 situações que você já viveu ou viu onde alguém poderia ter sido vítima de um dos riscos</li>
-        <li><span class="bullet">3️⃣</span> Monte um mini-guia: "3 regras de ouro para usar a internet com segurança" — em uma folha ou slide</li>
-      </ul>
+      </div>
+      <div class="card-body">
+        <h3>Extensões e Aplicativos Essenciais</h3>
+        <p>Extensão → tipo → app. PDF, áudio, vídeo, imagens. Como o computador identifica cada arquivo.</p>
+      </div>
+      <div class="card-footer">
+        <span class="tag-revisao">🔁 Revisão</span>
+        <a class="btn-aula" href="aula02.html">Acessar →</a>
+      </div>
     </div>
+
+    <!-- AULA 3 -->
+    <div class="card s3">
+      <div class="card-top">
+        <div class="card-icon">🌐</div>
+        <div class="card-meta">
+          <div class="semana">3ª Semana</div>
+          <div class="data">21 de maio de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Internet com Ética e Segurança</h3>
+        <p>Navegação, e-mail, redes sociais, mensageiros. 3 riscos + 3 cuidados essenciais.</p>
+      </div>
+      <div class="card-footer">
+        <span class="tag-revisao">🔁 Revisão</span>
+        <a class="btn-aula" href="aula03.html">Acessar →</a>
+      </div>
+    </div>
+
+    <!-- AULA 4 -->
+    <div class="card s4">
+      <div class="card-top">
+        <div class="card-icon">☁️</div>
+        <div class="card-meta">
+          <div class="semana">4ª Semana</div>
+          <div class="data">28 de maio de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Armazenamento em Nuvem</h3>
+        <p>Criar estrutura de pastas, organizar arquivos na nuvem. Diferença entre link e arquivo.</p>
+      </div>
+      <div class="card-footer">
+        <span class="tag-hoje">⭐ Hoje</span>
+        <a class="btn-aula" href="aula04.html">Acessar →</a>
+      </div>
+    </div>
+
+    <!-- AULA 5 EM BREVE -->
+    <div class="card s5 em-breve">
+      <div class="card-top">
+        <div class="card-icon">⚙️</div>
+        <div class="card-meta">
+          <div class="semana">5ª Semana</div>
+          <div class="data">11 de junho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Instalação / Atualização com Segurança</h3>
+        <p>Julgamento do instalador, 3 regras de ouro e opções gráficas do sistema.</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
+    <!-- AULA 6 EM BREVE -->
+    <div class="card s6 em-breve">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-meta">
+          <div class="semana">6ª Semana</div>
+          <div class="data">18 de junho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Desempenho + Propriedades do Disco</h3>
+        <p>Observar CPU, Memória e Disco. Tabela antes/depois. Registrar espaço total e livre.</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
+    <!-- AULA 7 EM BREVE -->
+    <div class="card s7 em-breve">
+      <div class="card-top">
+        <div class="card-icon">🧪</div>
+        <div class="card-meta">
+          <div class="semana">7ª Semana</div>
+          <div class="data">25 de junho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Prática Avaliativa</h3>
+        <p>Armazenamento externo: formatação e cópia. Revisão de arquivos e pastas.</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
+    <!-- AULA 8 EM BREVE -->
+    <div class="card s8 em-breve">
+      <div class="card-top">
+        <div class="card-icon">🖥️</div>
+        <div class="card-meta">
+          <div class="semana">8ª Semana</div>
+          <div class="data">02 de julho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Máquinas Virtuais e Emuladores</h3>
+        <p>Conceito de VM. Checklist RAM/Disco/ISO/Rede/Snapshot. Criar VM vazia ou simular.</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
+    <!-- AULA 9 EM BREVE -->
+    <div class="card s9 em-breve">
+      <div class="card-top">
+        <div class="card-icon">🐧</div>
+        <div class="card-meta">
+          <div class="semana">9ª Semana</div>
+          <div class="data">09 de julho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>GNU/Linux — Instalação (visão geral)</h3>
+        <p>Etapas por ISO, ficha de escolhas, parágrafo sobre VM. Uma janela para o mundo open source!</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
+    <!-- AULA 10 EM BREVE -->
+    <div class="card s10 em-breve">
+      <div class="card-top">
+        <div class="card-icon">🗺️</div>
+        <div class="card-meta">
+          <div class="semana">10ª Semana</div>
+          <div class="data">16 de julho de 2026</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Fechamento — Android, Linux e Arduino</h3>
+        <p>Tabela comparativa Android/iOS + administração Linux + introdução à lógica/Arduino. Mapa mental final!</p>
+      </div>
+      <div class="card-footer">
+        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+      </div>
+    </div>
+
   </div>
-</section>
-
-<!-- ════════════════════════════════════════════════ AULA 4 ══ -->
-<section class="aula" id="aula4">
-  <div class="aula-header">
-    <div class="numero">04</div>
-    <div class="info">
-      <span>📅 28 de maio de 2026 — HOJE ⭐</span>
-      <h2>Armazenamento em Nuvem</h2>
-    </div>
-  </div>
-
-  <div class="aula-body">
-
-    <div class="objetivo">
-      🎯 <strong>Objetivo:</strong> Compreender o que é nuvem, criar uma estrutura de pastas organizada, salvar 3 arquivos e entender a diferença entre link e arquivo.
-    </div>
-
-    <div class="ilustra">
-      <div class="ilustra-box">☁️<span class="label">Nuvem</span></div>
-      <div class="ilustra-box">📁<span class="label">Pastas</span></div>
-      <div class="ilustra-box">🔗<span class="label">Link</span></div>
-      <div class="ilustra-box">📤<span class="label">Compartilhar</span></div>
-    </div>
-
-    <div class="destaque roxo">
-      ☁️ <strong>O que é a nuvem?</strong><br>
-      É um servidor (um computador gigante) que fica em outro lugar do mundo e guarda seus arquivos. Você acessa de qualquer dispositivo usando a internet — como se fosse um HD externo, mas online!
-    </div>
-
-    <h3 style="margin: 1rem 0 .5rem; font-size: 1.05rem;">☁️ Principais serviços de nuvem</h3>
-    <div class="cards">
-      <div class="card-item">
-        <div class="icon">🔵</div>
-        <h3>Google Drive</h3>
-        <p>15 GB grátis com conta Google. Integra com Docs, Sheets, Slides.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">🟦</div>
-        <h3>OneDrive</h3>
-        <p>5 GB grátis com conta Microsoft. Integra com Word, Excel, PowerPoint.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">📦</div>
-        <h3>Dropbox</h3>
-        <p>2 GB grátis. Sincroniza automaticamente com uma pasta no seu PC.</p>
-      </div>
-      <div class="card-item">
-        <div class="icon">🍎</div>
-        <h3>iCloud</h3>
-        <p>5 GB grátis. Exclusivo para Apple (iPhone, Mac).</p>
-      </div>
-    </div>
-
-    <h3 style="margin: 1.2rem 0 .5rem; font-size: 1.05rem;">📁 Criando uma estrutura de pastas organizada</h3>
-
-    <div class="destaque info">
-      🗂️ <strong>Estrutura sugerida no Google Drive:</strong><br><br>
-      <code>
-        📁 Escola 2026<br>
-        &nbsp;&nbsp;└── 📁 1º Ano<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 Português<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 Matemática<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 Informática<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 Atividade01.pdf<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 🖼️ Captura.png<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📝 Anotacoes.docx
-      </code>
-    </div>
-
-    <h3 style="margin: 1.2rem 0 .5rem; font-size: 1.05rem;">🔗 Link × Arquivo — qual a diferença?</h3>
-
-    <table>
-      <thead><tr><th></th><th>📎 Arquivo</th><th>🔗 Link (URL)</th></tr></thead>
-      <tbody>
-        <tr><td><strong>O que é?</strong></td><td>O arquivo em si (ocupa espaço)</td><td>Um "endereço" que aponta para o arquivo</td></tr>
-        <tr><td><strong>Exemplo</strong></td><td><code>relatorio.pdf</code> baixado no PC</td><td><code>drive.google.com/file/d/abc123</code></td></tr>
-        <tr><td><strong>Vantagem</strong></td><td>Funciona sem internet</td><td>Sempre atualizado, não ocupa espaço no HD</td></tr>
-        <tr><td><strong>Desvantagem</strong></td><td>Pode ficar desatualizado</td><td>Precisa de internet para acessar</td></tr>
-        <tr><td><strong>Quando usar?</strong></td><td>Para guardar localmente</td><td>Para compartilhar com alguém</td></tr>
-      </tbody>
-    </table>
-
-    <div class="destaque dica">
-      💡 <strong>Analogia:</strong> O arquivo é como um livro físico na estante. O link é como o número de chamada da biblioteca — você não tem o livro, mas sabe onde encontrá-lo!
-    </div>
-
-    <h3 style="margin: 1.2rem 0 .5rem; font-size: 1.05rem;">✅ Vantagens da Nuvem</h3>
-    <ul class="lista-legal">
-      <li><span class="bullet">📱</span> <div><strong>Acesso de qualquer lugar</strong> — celular, tablet, computador na escola ou em casa</div></li>
-      <li><span class="bullet">🔒</span> <div><strong>Backup automático</strong> — se o PC quebrar, seus arquivos estão salvos</div></li>
-      <li><span class="bullet">👥</span> <div><strong>Compartilhamento fácil</strong> — envie um link em vez de um arquivo pesado por WhatsApp</div></li>
-      <li><span class="bullet">🔄</span> <div><strong>Sincronização automática</strong> — edite no celular e já aparece no computador</div></li>
-    </ul>
-
-    <div class="atividade">
-      <h4>✏️ Atividade Prática — HOJE (28/05)</h4>
-      <ul class="lista-legal">
-        <li><span class="bullet">1️⃣</span> Acesse o <strong>Google Drive</strong> com sua conta Google (<a href="https://drive.google.com" target="_blank">drive.google.com</a>)</li>
-        <li><span class="bullet">2️⃣</span> Crie a estrutura de pastas: <code>Escola 2026 → 1º Ano → Informática</code></li>
-        <li><span class="bullet">3️⃣</span> Suba 3 arquivos dentro da pasta Informática (pode ser a captura de tela que você fez na aula 1, um texto e uma foto)</li>
-        <li><span class="bullet">4️⃣</span> Gere um <strong>link de compartilhamento</strong> de um dos arquivos e cole no chat do grupo da turma</li>
-        <li><span class="bullet">5️⃣</span> Explique com suas palavras: <em>"Qual a diferença entre enviar o arquivo e enviar o link?"</em></li>
-      </ul>
-
-      <div class="destaque roxo" style="margin-top:.8rem">
-        ⭐ <strong>Bônus:</strong> Se terminar cedo, explore o Google Docs dentro do Drive. Crie um documento chamado <code>Minhas Anotações</code> e escreva um resumo do que aprendeu hoje!
-      </div>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer>
-  <p>💻 UC III – Sistemas Operacionais &nbsp;|&nbsp; 1º Ano – Ensino Médio Técnico &nbsp;|&nbsp; 2º Bimestre 2026</p>
-  <p style="margin-top:.3rem">Prof. Claudio &nbsp;·&nbsp; Campo Grande – MS</p>
+  <p><strong>UC III – Sistemas Operacionais</strong> · 1º Ano A · Ensino Médio Técnico · Matutino</p>
+  <p style="margin-top:.3rem">Prof. Claudio Amado · CEPE Ezequiel Ferreira Lima · Campo Grande – MS · 2º Bimestre 2026</p>
 </footer>
 
 </body>

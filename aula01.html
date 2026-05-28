@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 01 – Ferramentas e Utilitários | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#2563eb;--cor2:#1d4ed8;--cor-light:#dbeafe;--cor-mid:#93c5fd;--bg:#f0f4ff;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+
+    /* TOPO */
+    header{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#93c5fd;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#475569;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.8;margin-top:.2rem;}
+
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+
+    /* SEÇÕES */
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+
+    /* OBJETIVO */
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+
+    /* CARDS CONTEÚDO */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+
+    /* TABELA */
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    tr:hover td{background:#f8fafc;}
+    code{background:#f1f5f9;padding:.1rem .4rem;border-radius:5px;font-size:.85em;}
+
+    /* DESTAQUE */
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+
+    /* LISTA */
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.1rem;flex-shrink:0;}
+
+    /* RESUMO CADERNO */
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;}
+    .btn-copiar:hover{background:#d97706;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.8;}
+
+    /* PLACAR */
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+
+    /* PROGRESSO QUIZ */
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#fbbf24;border-radius:999px;transition:width .4s ease;}
+
+    /* PERGUNTA */
+    .pergunta-num{font-size:.75rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+
+    /* OPÇÕES */
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+
+    /* FEEDBACK */
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+
+    /* BOTÃO PRÓXIMA */
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#fbbf24;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;transition:background .2s;}
+    .btn-prox:hover{background:#f59e0b;}
+    .btn-prox.show{display:block;}
+
+    /* RESULTADO FINAL */
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.85;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#fbbf24;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:background .2s;}
+    .btn-refazer:hover{background:#f59e0b;}
+
+    @media(max-width:520px){.cards{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.7">1ª Semana · 07/05/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">📸 Aula 01 — Ferramentas e Utilitários</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- OBJETIVO -->
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Conhecer e usar as ferramentas básicas do Windows — captura de tela, Paint, Bloco de Notas, WordPad — e descobrir como encontrar as informações do seu computador.
+    </div>
+  </section>
+
+  <!-- CONTEÚDO -->
+  <section>
+    <div class="sec-titulo">📖 Conteúdo</div>
+
+    <div class="cards">
+      <div class="card-c"><div class="ic">📸</div><h3>Captura de Tela</h3><p>Tira uma "foto" do que está na tela usando teclas de atalho</p></div>
+      <div class="card-c"><div class="ic">🎨</div><h3>Paint</h3><p>Editor de imagens simples: recortar, colorir, adicionar texto</p></div>
+      <div class="card-c"><div class="ic">📝</div><h3>Bloco de Notas</h3><p>Texto puro e simples. Leve e rápido de abrir</p></div>
+      <div class="card-c"><div class="ic">📄</div><h3>WordPad</h3><p>Texto com formatação básica. Meio do caminho entre Bloco de Notas e Word</p></div>
+      <div class="card-c"><div class="ic">🔍</div><h3>Localizar Sistema</h3><p>Veja processador, RAM e versão do Windows do seu PC</p></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Ferramenta</th><th>Para que serve</th><th>Como abrir</th></tr></thead>
+      <tbody>
+        <tr><td>📸 Captura de Tela</td><td>"Foto" da tela inteira ou parte dela</td><td><code>Win + Shift + S</code></td></tr>
+        <tr><td>🎨 Paint</td><td>Editar, recortar e salvar imagens</td><td>Menu Iniciar → Paint</td></tr>
+        <tr><td>📝 Bloco de Notas</td><td>Anotações em texto puro (.txt)</td><td>Menu Iniciar → Notepad</td></tr>
+        <tr><td>📄 WordPad</td><td>Texto com negrito, itálico e cor</td><td>Menu Iniciar → WordPad</td></tr>
+        <tr><td>🔍 Informações do Sistema</td><td>Ver RAM, processador e Windows</td><td><code>Win + Pause</code> ou <em>dxdiag</em></td></tr>
+      </tbody>
+    </table>
+
+    <div class="destaque dica">
+      💡 <strong>Dica prática:</strong> Capture só uma área da tela com <code>Win + Shift + S</code>. Depois cole no Paint com <code>Ctrl + V</code> e salve como <strong>.PNG</strong>!
+    </div>
+
+    <div class="destaque info">
+      🖥️ <strong>Localizar informações do sistema:</strong><br>
+      Pressione <code>Win + Pause</code> para abrir "Sobre o PC" — ou pesquise <code>dxdiag</code> no menu Iniciar para ver detalhes técnicos completos como processador, RAM e placa de vídeo.
+    </div>
+
+    <ul class="lista">
+      <li><span class="bl">📌</span><div><strong>PrtSc</strong> — captura a tela inteira e copia para a área de transferência</div></li>
+      <li><span class="bl">📌</span><div><strong>Win + Shift + S</strong> — abre a ferramenta de recorte para selecionar a área desejada</div></li>
+      <li><span class="bl">📌</span><div><strong>Alt + PrtSc</strong> — captura apenas a janela que está ativa no momento</div></li>
+    </ul>
+  </section>
+
+  <!-- RESUMO CADERNO -->
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+
+      <div class="resumo-item">
+        <strong>📸 Captura de Tela</strong>
+        <p>Tira "foto" da tela. Atalhos: PrtSc (tela toda), Win+Shift+S (área escolhida), Alt+PrtSc (janela ativa). Colar no Paint com Ctrl+V.</p>
+      </div>
+
+      <div class="resumo-item">
+        <strong>🎨 Paint</strong>
+        <p>Editor de imagens simples. Serve para recortar, colorir, adicionar texto e salvar em PNG/JPG. Acesso pelo Menu Iniciar.</p>
+      </div>
+
+      <div class="resumo-item">
+        <strong>📝 Bloco de Notas vs WordPad</strong>
+        <p>Bloco de Notas = texto puro, leve, salva como .TXT. WordPad = texto com formatação básica, salva como .RTF. Nenhum dos dois substitui o Word.</p>
+      </div>
+
+      <div class="resumo-item">
+        <strong>🔍 Informações do Sistema</strong>
+        <p>Win+Pause ou digitar "dxdiag" no Iniciar. Mostra: nome do processador, quantidade de RAM e versão do Windows instalado.</p>
+      </div>
+
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <!-- ATIVIDADE -->
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Use <code>Win + Shift + S</code> e capture uma parte da tela</li>
+      <li><span class="bl">2️⃣</span> Cole no Paint com <code>Ctrl + V</code> e adicione seu nome com a ferramenta de texto</li>
+      <li><span class="bl">3️⃣</span> Salve como <strong>minha_captura.png</strong> na pasta Documentos</li>
+      <li><span class="bl">4️⃣</span> Abra o <em>dxdiag</em> e anote: processador, RAM e versão do Windows</li>
+    </ul>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 01</h3>
+        <p>10 perguntas · Ferramentas e Utilitários do Windows</p>
+      </div>
+
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas = [
+  {
+    texto: "Qual atalho do teclado abre a ferramenta de recorte para capturar PARTE da tela?",
+    opcoes: ["Ctrl + C", "Win + Shift + S", "Alt + F4", "PrtSc"],
+    certa: 1,
+    explicacao: "Win + Shift + S abre a ferramenta de Recorte do Windows, permitindo selecionar qualquer área da tela."
+  },
+  {
+    texto: "O Bloco de Notas salva arquivos com qual extensão?",
+    opcoes: [".docx", ".rtf", ".txt", ".pdf"],
+    certa: 2,
+    explicacao: "O Bloco de Notas salva em .TXT (texto puro), sem nenhuma formatação especial."
+  },
+  {
+    texto: "Qual ferramenta está 'no meio do caminho' entre o Bloco de Notas e o Word?",
+    opcoes: ["Paint", "WordPad", "Excel", "Notepad++"],
+    certa: 1,
+    explicacao: "O WordPad permite formatação básica (negrito, cor, fonte) mas é mais simples que o Word."
+  },
+  {
+    texto: "Como você pode ver as informações do computador (processador e RAM) de forma rápida?",
+    opcoes: ["Ctrl + Alt + Del", "Win + Pause ou dxdiag", "Win + D", "F5"],
+    certa: 1,
+    explicacao: "Win + Pause abre a janela 'Sobre o PC'. Também é possível digitar dxdiag no Iniciar para mais detalhes."
+  },
+  {
+    texto: "Você capturou uma tela com PrtSc. Onde a imagem fica guardada?",
+    opcoes: ["É salva automaticamente em Documentos", "Vai para a área de transferência (clipboard)", "É enviada por e-mail", "Abre automaticamente no Paint"],
+    certa: 1,
+    explicacao: "O PrtSc copia para a área de transferência. Você precisa colar (Ctrl+V) em algum programa como o Paint para ver a imagem."
+  },
+  {
+    texto: "Para editar uma captura de tela: adicionar texto e salvar como PNG, qual ferramenta usar?",
+    opcoes: ["WordPad", "Bloco de Notas", "Paint", "Gerenciador de Tarefas"],
+    certa: 2,
+    explicacao: "O Paint é o editor de imagens padrão do Windows. Perfeito para edições simples, adicionar texto e salvar em PNG ou JPG."
+  },
+  {
+    texto: "Qual atalho captura APENAS a janela que está ativa no momento?",
+    opcoes: ["Win + Shift + S", "PrtSc", "Alt + PrtSc", "Win + Print"],
+    certa: 2,
+    explicacao: "Alt + PrtSc captura somente a janela ativa (em foco), sem incluir o restante da tela."
+  },
+  {
+    texto: "O WordPad salva arquivos com qual extensão padrão?",
+    opcoes: [".txt", ".docx", ".rtf", ".odt"],
+    certa: 2,
+    explicacao: "O WordPad salva por padrão em .RTF (Rich Text Format), que preserva a formatação básica."
+  },
+  {
+    texto: "Qual a principal DIFERENÇA entre o Bloco de Notas e o WordPad?",
+    opcoes: [
+      "O Bloco de Notas é pago e o WordPad é grátis",
+      "O WordPad permite formatação (negrito, cor, fonte); o Bloco de Notas não",
+      "O Bloco de Notas abre arquivos de imagem",
+      "São exatamente iguais"
+    ],
+    certa: 1,
+    explicacao: "O Bloco de Notas cria texto puro (sem formatação). O WordPad permite negrito, itálico, cor e fonte — formatação básica."
+  },
+  {
+    texto: "Ao usar Win+Shift+S e selecionar uma área, o que acontece com a imagem capturada?",
+    opcoes: [
+      "É salva automaticamente na Área de Trabalho",
+      "Vai para a área de transferência e uma notificação aparece",
+      "Abre diretamente no Paint",
+      "É enviada ao professor automaticamente"
+    ],
+    certa: 1,
+    explicacao: "Após o recorte, a imagem vai para a área de transferência e aparece uma notificação. Clicando nela, você pode editar ou salvar. Também é possível colar direto no Paint com Ctrl+V."
+  }
+];
+
+let atual = 0, acertos = 0, erros = 0;
+
+function iniciarQuiz() {
+  atual = 0; acertos = 0; erros = 0;
+  document.getElementById('resultado').classList.remove('show');
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('placar-acertos').textContent = 0;
+  document.getElementById('placar-erros').textContent = 0;
+  renderPergunta();
+}
+
+function renderPergunta() {
+  const p = perguntas[atual];
+  document.getElementById('q-num').textContent = `Pergunta ${atual+1} de ${perguntas.length}`;
+  document.getElementById('q-texto').textContent = p.texto;
+  document.getElementById('placar-questao').textContent = `${atual+1}/${perguntas.length}`;
+  document.getElementById('prog').style.width = `${(atual/perguntas.length)*100}%`;
+  document.getElementById('q-feedback').className = 'feedback';
+  document.getElementById('btn-prox').classList.remove('show');
+
+  const opc = document.getElementById('q-opcoes');
+  opc.innerHTML = '';
+  p.opcoes.forEach((txt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opcao';
+    btn.textContent = ['A','B','C','D'][i] + '. ' + txt;
+    btn.onclick = () => responder(i);
+    opc.appendChild(btn);
+  });
+}
+
+function responder(idx) {
+  const p = perguntas[atual];
+  const btns = document.querySelectorAll('.opcao');
+  btns.forEach(b => b.disabled = true);
+  btns[p.certa].classList.add('certa');
+
+  const fb = document.getElementById('q-feedback');
+  if (idx === p.certa) {
+    acertos++;
+    document.getElementById('placar-acertos').textContent = acertos;
+    btns[idx].classList.add('certa');
+    fb.className = 'feedback show ok';
+    fb.textContent = '✅ Correto! ' + p.explicacao;
+  } else {
+    erros++;
+    document.getElementById('placar-erros').textContent = erros;
+    btns[idx].classList.add('errada');
+    fb.className = 'feedback show nok';
+    fb.textContent = '❌ Errado. ' + p.explicacao;
+  }
+  document.getElementById('btn-prox').classList.add('show');
+}
+
+function proxima() {
+  atual++;
+  if (atual >= perguntas.length) {
+    mostrarResultado();
+  } else {
+    renderPergunta();
+  }
+}
+
+function mostrarResultado() {
+  document.getElementById('quiz-area').style.display = 'none';
+  const res = document.getElementById('resultado');
+  res.classList.add('show');
+  document.getElementById('prog').style.width = '100%';
+  const pct = Math.round((acertos/perguntas.length)*100);
+  document.getElementById('res-nota').textContent = `${acertos}/10`;
+  const msgs = [
+    [0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],
+    [5,6,'📚 Quase lá! Você está no caminho certo.'],
+    [7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],
+    [9,10,'🏆 Excelente! Você dominou a aula!']
+  ];
+  const m = msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);
+  document.getElementById('res-msg').textContent = m[2];
+}
+
+function copiarResumo(btn) {
+  const texto = `📓 RESUMO — AULA 01: FERRAMENTAS E UTILITÁRIOS
+
+📸 CAPTURA DE TELA
+Tira "foto" da tela. Atalhos: PrtSc (tela toda), Win+Shift+S (área escolhida), Alt+PrtSc (janela ativa). Colar no Paint com Ctrl+V.
+
+🎨 PAINT
+Editor de imagens simples. Serve para recortar, colorir, adicionar texto e salvar em PNG/JPG. Acesso pelo Menu Iniciar.
+
+📝 BLOCO DE NOTAS vs WORDPAD
+Bloco de Notas = texto puro, leve, salva como .TXT. WordPad = texto com formatação básica, salva como .RTF. Nenhum dos dois substitui o Word.
+
+🔍 INFORMAÇÕES DO SISTEMA
+Win+Pause ou digitar "dxdiag" no Iniciar. Mostra: nome do processador, quantidade de RAM e versão do Windows instalado.`;
+  navigator.clipboard.writeText(texto).then(()=>{
+    btn.textContent='✅ Copiado!';btn.classList.add('copiado');
+    setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);
+  });
+}
+
+iniciarQuiz();
+</script>
+</body>
+</html>
