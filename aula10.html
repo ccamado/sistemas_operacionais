@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 10 – Fechamento | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#7c3aed;--cor2:#6d28d9;--cor-light:#ede9fe;--bg:#faf5ff;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#c4b5fd;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#5b21b6;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;white-space:pre-wrap;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#a78bfa;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#a78bfa;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#a78bfa;color:#1e293b;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">10ª Semana · 16/07/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">🗺️ Aula 10 — Fechamento: Android/iOS + Linux + Arduino</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos fazer hoje:</strong> Comparar Android, iOS e GNU/Linux (visão geral), entender noções básicas de administração no Linux (usuários/grupos, permissões e processos), ver a ideia de comandos de texto e fechar com uma visão introdutória de lógica/Arduino. Final: mapa mental.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📱 Android × iOS × Linux (comparação)</div>
+    <table>
+      <thead><tr><th>Critério</th><th>Android</th><th>iOS</th><th>GNU/Linux (desktop)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Apps</strong></td><td>Play Store</td><td>App Store</td><td>Repositórios/lojas</td></tr>
+        <tr><td><strong>Permissões</strong></td><td>Apps pedem acesso</td><td>Apps pedem acesso</td><td>Usuários/permissões</td></tr>
+        <tr><td><strong>Personalização</strong></td><td>Alta</td><td>Mais controlada</td><td>Alta</td></tr>
+        <tr><td><strong>Terminal</strong></td><td>Limitado (apps)</td><td>Mais limitado</td><td>Terminal forte</td></tr>
+      </tbody>
+    </table>
+
+    <div class="destaque info">
+      ✅ A ideia é entender que <strong>todo SO</strong> tem interface, apps, arquivos e regras de segurança.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🔐 Administração Linux (visão geral)</div>
+    <div class="cards">
+      <div class="card-c"><div class="ic">👥</div><h3>Usuários/Grupos</h3><p>Quem pode acessar o quê.</p></div>
+      <div class="card-c"><div class="ic">📄</div><h3>Permissões</h3><p>rwx (ler/escrever/executar).</p></div>
+      <div class="card-c"><div class="ic">⚙️</div><h3>Processos</h3><p>Programas em execução.</p></div>
+      <div class="card-c"><div class="ic">⌨️</div><h3>CLI</h3><p>Comandos de texto (noção).</p></div>
+    </div>
+
+    <div class="destaque dica">
+      💡 <strong>rwx em português:</strong> r = ler, w = escrever, x = executar. Quem decide? As permissões do arquivo/pasta.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🤖 Lógica/Arduino (visão introdutória)</div>
+    <ul class="lista">
+      <li><span class="bl">🧠</span><div><strong>Lógica:</strong> pensar em passos (se… então…)</div></li>
+      <li><span class="bl">💻</span><div><strong>Linguagem:</strong> jeito de escrever instruções para o computador</div></li>
+      <li><span class="bl">🔌</span><div><strong>Arduino:</strong> placa para controlar dispositivos (LED, sensor) — ligação com “dispositivos” do SO</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🧠 Mapa mental (final)</div>
+    <div class="destaque info">
+      Desenhe no caderno (modelo):<br>
+      <strong>Sistemas Operacionais</strong> → Windows/Linux → (Arquivos, Internet/Nuvem, Desempenho, VM) → Mobile (Android/iOS) → Linux (Usuários/Permissões/Processos) → Lógica/Arduino.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item"><strong>Comparação</strong><p>Android e iOS são móveis. GNU/Linux é muito usado em servidores e também no desktop.
+Todos têm apps, arquivos e regras de segurança.</p></div>
+      <div class="resumo-item"><strong>Linux (visão geral)</strong><p>Usuários/grupos controlam acesso.
+Permissões rwx: ler/escrever/executar.
+Processos = programas rodando.
+CLI = comandos de texto (noção).</p></div>
+      <div class="resumo-item"><strong>Lógica/Arduino</strong><p>Lógica = passos para resolver.
+Arduino = placa para controlar dispositivos (ligação com hardware).</p></div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 10</h3>
+        <p>10 perguntas · Fechamento do Bimestre</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas=[
+  {texto:"Android e iOS são sistemas:",opcoes:["De servidor","Móveis","De impressora","De BIOS"],certa:1,explicacao:"Android e iOS são sistemas operacionais para celulares/tablets."},
+  {texto:"GNU/Linux é conhecido por:",opcoes:["Não ter arquivos","Ser usado em servidores e desktops","Ser só de jogos","Ser um cabo"],certa:1,explicacao:"Linux é muito usado em servidores e também pode ser usado no desktop."},
+  {texto:"Permissões rwx significam:",opcoes:["rede/wifi/xp","ler/escrever/executar","rodar/whatsapp/xbox","ram/watts/x"],certa:1,explicacao:"r = read (ler), w = write (escrever), x = execute (executar)."},
+  {texto:"Processo é:",opcoes:["Pasta","Programa rodando","Um cabo","Um arquivo"],certa:1,explicacao:"Processo é um programa em execução."},
+  {texto:"CLI é:",opcoes:["Interface por comandos de texto","Uma imagem","Um vídeo","Um app"],certa:0,explicacao:"CLI é interface de linha de comando."},
+  {texto:"Usuários/grupos servem para:",opcoes:["Aumentar brilho","Controlar acesso","Formatar sem backup","Criar vírus"],certa:1,explicacao:"Usuários e grupos definem permissões de acesso."},
+  {texto:"Arduino é:",opcoes:["Um sistema operacional","Uma placa para controlar dispositivos","Um formato de arquivo","Um navegador"],certa:1,explicacao:"Arduino é uma placa/microcontrolador para projetos com hardware."},
+  {texto:"Lógica é:",opcoes:["Pensar em passos","Um pendrive","Um tipo de vídeo","Um antivírus"],certa:0,explicacao:"Lógica é organizar o raciocínio em passos (se/então)."},
+  {texto:"Todo sistema operacional tem:",opcoes:["Interface e regras","Só jogos","Só nuvem","Só BIOS"],certa:0,explicacao:"SO gerencia recursos e oferece interface e regras de uso."},
+  {texto:"No fim, o mapa mental ajuda a:",opcoes:["Esquecer","Organizar ideias","Apagar arquivos","Baixar crack"],certa:1,explicacao:"Mapa mental organiza o que você aprendeu e facilita estudar."}
+];
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 10: FECHAMENTO\n\nAndroid/iOS = SO móveis.\nGNU/Linux = SO usado em servidores e desktops.\n\nLinux (visão geral): usuários/grupos, permissões rwx (ler/escrever/executar), processos e CLI (comandos).\n\nLógica = pensar em passos. Arduino = placa para controlar dispositivos.`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
