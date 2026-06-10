@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 08 – Máquinas Virtuais | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#16a34a;--cor2:#15803d;--cor-light:#dcfce7;--bg:#f0fdf4;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#bbf7d0;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#15803d;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;white-space:pre-wrap;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#86efac;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#86efac;color:#052e16;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#86efac;color:#052e16;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">8ª Semana · 02/07/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">🖥️ Aula 08 — Máquinas Virtuais e Emuladores</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Entender o que é uma máquina virtual (VM), para que serve e montar um checklist básico (RAM, disco, ISO, rede e snapshot).
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🧠 VM em 1 frase</div>
+    <div class="destaque info">
+      🖥️ <strong>Máquina Virtual = um computador dentro do computador.</strong><br>
+      Ela roda um sistema operacional “virtual” sem mexer no sistema principal.
+    </div>
+
+    <div class="cards">
+      <div class="card-c"><div class="ic">🧪</div><h3>Treino seguro</h3><p>Testar sem estragar o PC principal.</p></div>
+      <div class="card-c"><div class="ic">🐧</div><h3>Linux no Windows</h3><p>Rodar GNU/Linux dentro do Windows.</p></div>
+      <div class="card-c"><div class="ic">🧰</div><h3>Laboratório</h3><p>Aprender instalação e configuração.</p></div>
+      <div class="card-c"><div class="ic">⏪</div><h3>Snapshot</h3><p>“Voltar no tempo” se der erro.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✅ Checklist da VM (o que configurar)</div>
+    <table>
+      <thead><tr><th>Item</th><th>O que é?</th><th>Exemplo simples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RAM</strong></td><td>Memória para a VM</td><td>2 GB (se possível)</td></tr>
+        <tr><td><strong>Disco</strong></td><td>Armazenamento da VM</td><td>20 GB</td></tr>
+        <tr><td><strong>ISO</strong></td><td>Arquivo do instalador do SO</td><td>Ubuntu.iso</td></tr>
+        <tr><td><strong>Rede</strong></td><td>Internet na VM</td><td>NAT (padrão)</td></tr>
+        <tr><td><strong>Snapshot</strong></td><td>Ponto de restauração da VM</td><td>Antes de instalar</td></tr>
+      </tbody>
+    </table>
+
+    <div class="destaque dica">
+      💡 <strong>Dica:</strong> VM é ótima para aprender instalação do Linux sem risco. Se der errado, apaga a VM e faz de novo.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item"><strong>O que é VM?</strong><p>Máquina Virtual = um computador dentro do computador. Roda um SO sem mexer no principal.</p></div>
+      <div class="resumo-item"><strong>Para que serve?</strong><p>Treinar instalação, testar programas e aprender Linux com segurança.</p></div>
+      <div class="resumo-item"><strong>Checklist básico</strong><p>RAM, Disco, ISO, Rede e Snapshot (para voltar atrás se der erro).</p></div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática — HOJE (02/07)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Complete o checklist da VM (RAM/Disco/ISO/Rede/Snapshot) no caderno.</li>
+      <li><span class="bl">2️⃣</span> Se o laboratório permitir: abra o software de VM e <strong>crie uma VM vazia</strong> (sem instalar).</li>
+      <li><span class="bl">3️⃣</span> Se não permitir: faça a atividade “Monte a VM” com cartões (o professor entrega as opções).</li>
+      <li><span class="bl">4️⃣</span> Entregável: checklist preenchido + 1 justificativa (por que escolheu essa RAM/disco).</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 08</h3>
+        <p>10 perguntas · Máquinas Virtuais</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas=[
+  {texto:"Máquina virtual (VM) é:",opcoes:["Um pendrive","Um computador dentro do computador","Um vírus","Um tipo de arquivo"],certa:1,explicacao:"VM simula um computador, rodando um SO virtual."},
+  {texto:"Uma vantagem da VM é:",opcoes:["Estragar o PC","Treinar com segurança","Apagar a internet","Aumentar RAM real"],certa:1,explicacao:"VM permite testar/treinar sem afetar o sistema principal."},
+  {texto:"ISO é:",opcoes:["Foto","Instalador do SO","Senha","Mouse"],certa:1,explicacao:"ISO é o arquivo do instalador do sistema operacional."},
+  {texto:"Snapshot serve para:",opcoes:["Aumentar brilho","Voltar para um ponto anterior","Criar e-mail","Formatar"],certa:1,explicacao:"Snapshot permite voltar atrás se algo der errado."},
+  {texto:"RAM da VM é:",opcoes:["Memória para a máquina virtual","Memória do teclado","Espaço no pendrive","Tipo de vídeo"],certa:0,explicacao:"É a memória que você aloca para a VM."},
+  {texto:"Disco da VM é:",opcoes:["Armazenamento da VM","A internet","Um arquivo de música","A tela"],certa:0,explicacao:"É o espaço onde o SO virtual vai ser instalado."},
+  {texto:"Rodar Linux no Windows pode ser feito com:",opcoes:["VM","Paint","Bloco de notas","Cabo HDMI"],certa:0,explicacao:"VM permite rodar outro SO dentro do Windows."},
+  {texto:"Rede NAT é:",opcoes:["Modo comum de internet na VM","Um vírus","Um tipo de arquivo","Um driver"],certa:0,explicacao:"NAT é um modo padrão para a VM acessar internet."},
+  {texto:"Se der erro na VM, você pode:",opcoes:["Quebrar o PC","Apagar a VM e refazer","Desinstalar Windows","Apagar o monitor"],certa:1,explicacao:"VM facilita refazer do zero sem risco."},
+  {texto:"Checklist básico de VM inclui:",opcoes:["RAM/Disco/ISO/Rede/Snapshot","CPF/Senha","Mouse/Teclado","Foto/Vídeo"],certa:0,explicacao:"Esses são os principais itens de configuração."}
+];
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 08: MÁQUINAS VIRTUAIS\n\nVM = computador dentro do computador.\nServe para aprender/testar com segurança.\nChecklist: RAM, Disco, ISO, Rede e Snapshot (voltar atrás).`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
