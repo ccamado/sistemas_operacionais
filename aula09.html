@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 09 – GNU/Linux (Instalação) | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#ea580c;--cor2:#c2410c;--cor-light:#ffedd5;--bg:#fff7ed;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#7c2d12,#ea580c);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#fed7aa;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#c2410c;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;white-space:pre-wrap;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#7c2d12,#ea580c);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#fdba74;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#fdba74;color:#3b1b08;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#fdba74;color:#3b1b08;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">9ª Semana · 09/07/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">🐧 Aula 09 — GNU/Linux: Instalação (visão orientada)</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Entender as etapas básicas de instalação do GNU/Linux (preferencialmente em VM), preencher uma ficha de escolhas e escrever por que VM é mais segura para aprender.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🧭 Linha do tempo da instalação</div>
+    <div class="cards">
+      <div class="card-c"><div class="ic">💿</div><h3>Boot por ISO</h3><p>Iniciar pelo arquivo ISO (instalador).</p></div>
+      <div class="card-c"><div class="ic">🌎</div><h3>Idioma</h3><p>Escolher português/idioma.</p></div>
+      <div class="card-c"><div class="ic">🕒</div><h3>Fuso horário</h3><p>Definir hora e região.</p></div>
+      <div class="card-c"><div class="ic">👤</div><h3>Usuário</h3><p>Criar nome, senha, conta.</p></div>
+      <div class="card-c"><div class="ic">⚙️</div><h3>Instalar</h3><p>Confirmar e aguardar.</p></div>
+      <div class="card-c"><div class="ic">🔁</div><h3>Reiniciar</h3><p>Remover ISO e entrar no sistema.</p></div>
+    </div>
+
+    <div class="destaque dica">
+      💡 <strong>Por que VM é melhor para aprender?</strong> Se der errado, você apaga a VM e tenta de novo. No PC real, você pode perder arquivos.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📝 Ficha de escolhas (preencher)</div>
+    <ul class="lista">
+      <li><span class="bl">🌎</span><div><strong>Idioma:</strong> ____________________________</div></li>
+      <li><span class="bl">⌨️</span><div><strong>Teclado:</strong> ____________________________</div></li>
+      <li><span class="bl">🕒</span><div><strong>Fuso horário:</strong> ________________________</div></li>
+      <li><span class="bl">👤</span><div><strong>Usuário (nome):</strong> _____________________</div></li>
+      <li><span class="bl">🔒</span><div><strong>Senha:</strong> ______________________________</div></li>
+    </ul>
+
+    <div class="destaque info">
+      ✅ Se não houver instalação real no laboratório, você faz a ficha e explica as etapas como simulação.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item"><strong>Etapas básicas</strong><p>Boot por ISO → idioma → fuso horário → usuário/senha → instalar → reiniciar.</p></div>
+      <div class="resumo-item"><strong>Por que usar VM?</strong><p>É mais seguro para aprender: não mexe no sistema principal e permite refazer do zero.</p></div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática — HOJE (09/07)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Preencha a ficha de escolhas (idioma/teclado/fuso/usuário/senha).</li>
+      <li><span class="bl">2️⃣</span> Se houver VM disponível: inicie a instalação até a tela de escolhas (sem concluir se não der tempo).</li>
+      <li><span class="bl">3️⃣</span> Escreva 1 parágrafo: <em>"Por que instalar em VM é mais seguro para aprender?"</em></li>
+      <li><span class="bl">4️⃣</span> Entregável: ficha + parágrafo (visto do professor).</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 09</h3>
+        <p>10 perguntas · Instalação GNU/Linux</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas=[
+  {texto:"ISO é:",opcoes:["Instalador do SO","Foto","Senha","Vídeo"],certa:0,explicacao:"ISO é o arquivo do instalador do sistema operacional."},
+  {texto:"Primeira etapa comum é:",opcoes:["Criar usuário","Boot por ISO","Escolher papel de parede","Abrir Paint"],certa:1,explicacao:"A instalação começa iniciando pelo instalador (ISO)."},
+  {texto:"Por que escolher idioma é importante?",opcoes:["Para Wi-Fi","Para menus e teclado","Para aumentar RAM","Para formatar"],certa:1,explicacao:"Idioma afeta interface e teclado."},
+  {texto:"Fuso horário serve para:",opcoes:["Hora correta","Vídeo","Senha","CPU"],certa:0,explicacao:"Define data/hora corretas."},
+  {texto:"Criar usuário serve para:",opcoes:["Entrar no sistema","Apagar tudo","Criar vírus","Aumentar disco"],certa:0,explicacao:"Usuário e senha permitem login."},
+  {texto:"VM é mais segura porque:",opcoes:["É mais lenta","Não mexe no sistema principal","Apaga a nuvem","Quebra o PC"],certa:1,explicacao:"VM isola o aprendizado do sistema principal."},
+  {texto:"Depois de instalar, normalmente é preciso:",opcoes:["Reiniciar","Desligar para sempre","Apagar ISO","Trocar mouse"],certa:0,explicacao:"Reiniciar finaliza instalação."},
+  {texto:"Se der erro na instalação na VM, você pode:",opcoes:["Chorar","Apagar a VM e tentar de novo","Formatar o PC","Apagar o caderno"],certa:1,explicacao:"VM permite refazer facilmente."},
+  {texto:"Teclado ABNT2 é uma escolha de:",opcoes:["Layout de teclado","Tipo de disco","Tipo de ISO","Tipo de rede"],certa:0,explicacao:"Layout define teclas e acentos."},
+  {texto:"Entregável da aula inclui:",opcoes:["Ficha + parágrafo","Som alto","Wallpaper","Jogo"],certa:0,explicacao:"A atividade pede ficha preenchida e parágrafo."}
+];
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 09: INSTALAÇÃO GNU/LINUX\n\nEtapas: Boot por ISO → idioma → fuso horário → usuário/senha → instalar → reiniciar.\n\nVM é mais segura porque não mexe no sistema principal e permite refazer.`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
