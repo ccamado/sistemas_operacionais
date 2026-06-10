@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAV 02 – Revisão Internet com Ética | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#ea580c;--cor2:#c2410c;--cor-light:#ffedd5;--bg:#fff7ed;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#7c2d12,#ea580c);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#fed7aa;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#c2410c;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#7c2d12,#ea580c);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#fdba74;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#fdba74;color:#3b1b08;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#fdba74;color:#3b1b08;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">RAV · 09/07/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">🟠 RAV 02 — Revisão: Internet com Ética</div>
+    <div class="aula-sub">Recuperar para Avançar · SO · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="objetivo">🎯 <strong>Objetivo:</strong> reforçar navegação segura e a ficha “3 riscos + 3 cuidados”.</div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">⚠️ 3 riscos (revisão)</div>
+    <div class="cards">
+      <div class="card-c"><div class="ic">🎣</div><h3>Phishing</h3><p>Golpe para roubar dados (pressa + link).</p></div>
+      <div class="card-c"><div class="ic">🦠</div><h3>Malware</h3><p>Vírus por link/arquivo suspeito.</p></div>
+      <div class="card-c"><div class="ic">💬</div><h3>Exposição</h3><p>Foto/dados sem permissão.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✅ 3 cuidados (revisão)</div>
+    <ul class="lista">
+      <li><span class="bl">🔎</span><div><strong>Conferir URL e remetente</strong> antes de clicar.</div></li>
+      <li><span class="bl">🔒</span><div><strong>Não compartilhar dados pessoais</strong> (CPF, senhas).</div></li>
+      <li><span class="bl">🤝</span><div><strong>Respeitar imagem dos outros</strong> (pedir permissão).</div></li>
+    </ul>
+
+    <div class="destaque dica">💡 <strong>Regra de ouro:</strong> Na dúvida, NÃO clicar e pedir orientação.</div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✏️ Atividade (lite)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Refazer a ficha: <strong>3 riscos + 3 cuidados</strong>.</li>
+      <li><span class="bl">2️⃣</span> Corrigir com o professor e melhorar 1 item (deixar mais claro).</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div style="background:#fff8;border-radius:10px;padding:1rem;border-left:3px solid #fbbf24;white-space:pre-wrap;">Internet com ética = usar com responsabilidade.
+Riscos: phishing, malware e exposição de dados/fotos.
+Cuidados: conferir URL/remetente, não compartilhar dados pessoais, respeitar a imagem dos outros.
+Regra de ouro: na dúvida, NÃO clicar e pedir ajuda.</div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Revisão!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header"><h3>🕹️ Quiz RAV 02</h3><p>10 perguntas · Internet com Ética</p></div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas=[
+  {texto:"Phishing é:",opcoes:["Golpe para roubar dados","App de música","Tipo de arquivo","Wi-Fi"],certa:0,explicacao:"Phishing tenta enganar para roubar dados."},
+  {texto:"Um sinal de golpe é:",opcoes:["Pressa + urgência","Site oficial","Professor avisou","Remetente confiável"],certa:0,explicacao:"Golpes usam pressa e urgência."},
+  {texto:"Malware pode entrar por:",opcoes:["Link/arquivo suspeito","Caderno","Mouse","Monitor"],certa:0,explicacao:"Links e anexos suspeitos podem trazer malware."},
+  {texto:"O mais seguro ao receber link estranho é:",opcoes:["Não clicar","Clicar rápido","Enviar para todos","Desativar antivírus"],certa:0,explicacao:"Na dúvida, não clique."},
+  {texto:"É correto postar foto de colega:",opcoes:["Só com permissão","Sempre","Nunca","Sem perguntar"],certa:0,explicacao:"Respeito e permissão são essenciais."},
+  {texto:"Compartilhar CPF e senha é:",opcoes:["Perigoso","Seguro","Obrigatório","Normal"],certa:0,explicacao:"Dados pessoais não devem ser compartilhados."},
+  {texto:"Conferir URL ajuda a:",opcoes:["Evitar site falso","Aumentar RAM","Formatar","Criar vídeo"],certa:0,explicacao:"URL revela se o site é legítimo."},
+  {texto:"Regra de ouro é:",opcoes:["Na dúvida, não clicar","Clicar sempre","Confiar em anúncios","Ignorar"],certa:0,explicacao:"Se tiver dúvida, pare e peça ajuda."},
+  {texto:"Um cuidado em mensageiros é:",opcoes:["Confirmar identidade antes de enviar dinheiro","Enviar sem pensar","Passar senha","Clicar em tudo"],certa:0,explicacao:"Confirme a identidade antes de qualquer ação."},
+  {texto:"Internet com ética significa:",opcoes:["Usar com responsabilidade","Usar para humilhar","Roubar dados","Espalhar boatos"],certa:0,explicacao:"É usar com respeito, segurança e responsabilidade."}
+];
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Refaça a ficha e tente de novo.'],[5,6,'📚 Quase lá!'],[7,8,'👏 Muito bom!'],[9,10,'🏆 Excelente!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — RAV 02: INTERNET COM ÉTICA\n\nRiscos: phishing, malware e exposição de dados/fotos.\nCuidados: conferir URL/remetente; não compartilhar dados; respeitar imagem dos outros.\nRegra de ouro: na dúvida, NÃO clicar e pedir ajuda.`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
