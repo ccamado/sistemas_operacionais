@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAV 01 – Revisão Extensões e Apps | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#16a34a;--cor2:#15803d;--cor-light:#dcfce7;--bg:#f0fdf4;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#14532d,#16a34a);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    header a{color:#bbf7d0;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#15803d;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    th{background:var(--cor);color:#fff;padding:.65rem .9rem;text-align:left;}
+    td{padding:.6rem .9rem;border-bottom:1px solid #f1f5f9;}
+    tr:last-child td{border:none;}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#86efac;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#86efac;color:#052e16;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#86efac;color:#052e16;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">RAV · 08/07/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">🟢 RAV 01 — Revisão: Extensões e Aplicativos</div>
+    <div class="aula-sub">Recuperar para Avançar · SO · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="objetivo">🎯 <strong>Objetivo:</strong> revisar extensão → tipo → aplicativo e fazer uma associação rápida para reforçar o conteúdo.</div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📌 Tabela rápida (revisão)</div>
+    <table>
+      <thead><tr><th>Extensão</th><th>Tipo</th><th>App comum</th></tr></thead>
+      <tbody>
+        <tr><td>.pdf</td><td>Documento</td><td>Leitor de PDF / Navegador</td></tr>
+        <tr><td>.docx</td><td>Texto</td><td>Word / Writer</td></tr>
+        <tr><td>.jpg/.png</td><td>Imagem</td><td>Fotos / Paint</td></tr>
+        <tr><td>.mp3</td><td>Áudio</td><td>Player/VLC</td></tr>
+        <tr><td>.mp4</td><td>Vídeo</td><td>Player/VLC</td></tr>
+        <tr><td>.zip</td><td>Compactado</td><td>Explorador / 7-Zip</td></tr>
+      </tbody>
+    </table>
+
+    <div class="destaque dica">💡 <strong>Regra de ouro:</strong> se você sabe a extensão, você escolhe o app certo.</div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✏️ Atividade (lite)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> No caderno, faça uma tabela com 10 extensões (mínimo 6 da tabela acima).</li>
+      <li><span class="bl">2️⃣</span> Para cada uma, escreva: tipo e 1 aplicativo.</li>
+      <li><span class="bl">3️⃣</span> Marque com ✓ as 3 extensões que você mais usa.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div style="background:#fff8;border-radius:10px;padding:1rem;border-left:3px solid #fbbf24;white-space:pre-wrap;">Extensão = “sobrenome” do arquivo e indica o tipo.
+Regra de ouro: extensão → tipo → aplicativo.
+Exemplos: .pdf (documento), .jpg/.png (imagem), .mp3 (áudio), .mp4 (vídeo), .zip (compactado).</div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Revisão!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header"><h3>🕹️ Quiz RAV 01</h3><p>10 perguntas · Extensões e Apps</p></div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas=[
+  {texto:".jpg é geralmente:",opcoes:["Imagem","Áudio","Vídeo","Texto"],certa:0,explicacao:".jpg é extensão de imagem."},
+  {texto:".pdf é normalmente aberto com:",opcoes:["Leitor de PDF/Navegador","Player","Paint","Zip"],certa:0,explicacao:"PDF abre em leitor de PDF ou navegador."},
+  {texto:".mp3 é:",opcoes:["Áudio","Imagem","Documento","Compactado"],certa:0,explicacao:"MP3 é áudio."},
+  {texto:".zip significa:",opcoes:["Compactado","Vídeo","Sistema","E-mail"],certa:0,explicacao:"ZIP é arquivo compactado."},
+  {texto:"Extensão serve para:",opcoes:["Indicar tipo","Aumentar internet","Trocar CPU","Criar vírus"],certa:0,explicacao:"Extensão indica o tipo do arquivo."},
+  {texto:".mp4 é:",opcoes:["Vídeo","Áudio","Texto","Pasta"],certa:0,explicacao:"MP4 é vídeo."},
+  {texto:"Word abre bem:",opcoes:[".docx",".mp3",".png",".zip"],certa:0,explicacao:"DOCX é texto do Word."},
+  {texto:"Fotos do Windows abre:",opcoes:[".jpg/.png",".mp3",".zip",".exe"],certa:0,explicacao:"Fotos abre imagens."},
+  {texto:"Se você sabe a extensão, você:",opcoes:["Escolhe o app certo","Formata o PC","Apaga tudo","Perde o arquivo"],certa:0,explicacao:"Regra de ouro: extensão → app."},
+  {texto:".txt abre em:",opcoes:["Bloco de Notas","Player","Navegador","Paint"],certa:0,explicacao:"TXT é texto simples."}
+];
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Refaça a tabela e tente de novo.'],[5,6,'📚 Quase lá!'],[7,8,'👏 Muito bom!'],[9,10,'🏆 Excelente!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — RAV 01: EXTENSÕES\n\nExtensão = “sobrenome” do arquivo e indica o tipo.\nRegra: extensão → tipo → aplicativo.\nExemplos: .pdf (documento), .jpg/.png (imagem), .mp3 (áudio), .mp4 (vídeo), .zip (compactado).`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
