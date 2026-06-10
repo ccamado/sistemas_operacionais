@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula 05 – Instalação/Atualização com Segurança | SO 1º Ano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--cor:#db2777;--cor2:#be185d;--cor-light:#fce7f3;--bg:#fff7fb;--card:#fff;--texto:#1e293b;--sub:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--texto);}
+    header{background:linear-gradient(135deg,#9d174d,#db2777);color:#fff;padding:1.2rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;position:relative;}
+    .badge-hoje{position:absolute;top:.8rem;right:1rem;background:#a7f3d0;color:#065f46;font-size:.72rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;}
+    header a{color:#fbcfe8;text-decoration:none;font-size:.85rem;font-weight:700;}
+    header a:hover{color:#fff;}
+    header .sep{color:#831843;}
+    .aula-titulo{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.1;}
+    .aula-sub{font-size:.85rem;opacity:.85;margin-top:.2rem;}
+    main{max-width:800px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+    section{margin-bottom:2rem;}
+    .sec-titulo{display:flex;align-items:center;gap:.6rem;font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--cor);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--cor-light);}
+    .objetivo{background:var(--cor-light);border-left:4px solid var(--cor);padding:.9rem 1.1rem;border-radius:0 10px 10px 0;font-size:.95rem;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin:.8rem 0;}
+    .card-c{background:var(--card);border-radius:14px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e8f0;}
+    .card-c .ic{font-size:2rem;margin-bottom:.4rem;}
+    .card-c h3{font-size:.88rem;font-weight:800;margin-bottom:.2rem;}
+    .card-c p{font-size:.78rem;color:var(--sub);}
+    .destaque{border-radius:12px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.9rem;}
+    .destaque.dica{background:#fef9c3;border-left:4px solid #fbbf24;}
+    .destaque.info{background:var(--cor-light);border-left:4px solid var(--cor);}
+    .lista{list-style:none;padding:0;margin:.6rem 0;}
+    .lista li{display:flex;gap:.6rem;padding:.6rem 0;border-bottom:1px dashed #e2e8f0;font-size:.92rem;align-items:flex-start;}
+    .lista li:last-child{border:none;}
+    .lista .bl{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    .resumo-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:2px dashed #fbbf24;border-radius:16px;padding:1.4rem;position:relative;}
+    .resumo-box::before{content:'📓';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:1.8rem;}
+    .resumo-box h3{font-family:'Fredoka One',cursive;color:#92400e;font-size:1.1rem;text-align:center;margin-bottom:.9rem;margin-top:.3rem;}
+    .resumo-item{background:#fff8;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid #fbbf24;}
+    .resumo-item strong{display:block;font-size:.85rem;color:#78350f;margin-bottom:.2rem;}
+    .resumo-item p{font-size:.83rem;color:#451a03;line-height:1.5;white-space:pre-wrap;}
+    .btn-copiar{display:block;width:100%;margin-top:1rem;padding:.65rem;background:#f59e0b;color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+    .btn-copiar.copiado{background:#16a34a;}
+    /* QUIZ */
+    .quiz-wrap{background:linear-gradient(135deg,#9d174d,#be185d);border-radius:20px;padding:1.8rem;color:#fff;}
+    .quiz-header{text-align:center;margin-bottom:1.5rem;}
+    .quiz-header h3{font-family:'Fredoka One',cursive;font-size:1.4rem;margin-bottom:.3rem;}
+    .quiz-header p{font-size:.85rem;opacity:.85;}
+    .placar{display:flex;justify-content:center;gap:2rem;margin-bottom:1.4rem;}
+    .placar-item{text-align:center;}
+    .placar-item .num{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;}
+    .placar-item .lab{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;}
+    .quiz-progress{background:rgba(255,255,255,.15);height:6px;border-radius:999px;margin-bottom:1.4rem;overflow:hidden;}
+    .quiz-progress-fill{height:100%;background:#f9a8d4;border-radius:999px;transition:width .4s ease;}
+    .pergunta-num{font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;}
+    .pergunta-texto{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;}
+    .opcoes{display:grid;gap:.6rem;margin-bottom:1rem;}
+    .opcao{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);border-radius:12px;padding:.75rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9rem;color:#fff;text-align:left;transition:all .2s;width:100%;}
+    .opcao:hover:not(:disabled){background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.45);}
+    .opcao.certa{background:rgba(34,197,94,.25);border-color:#4ade80;}
+    .opcao.errada{background:rgba(239,68,68,.25);border-color:#f87171;}
+    .opcao:disabled{cursor:default;}
+    .feedback{border-radius:10px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem;display:none;}
+    .feedback.show{display:block;}
+    .feedback.ok{background:rgba(34,197,94,.2);border:1px solid #4ade80;}
+    .feedback.nok{background:rgba(239,68,68,.2);border:1px solid #f87171;}
+    .btn-prox{display:none;width:100%;padding:.7rem;background:#f9a8d4;color:#3b0a1e;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;margin-top:.6rem;}
+    .btn-prox.show{display:block;}
+    .resultado{text-align:center;padding:1rem;display:none;}
+    .resultado.show{display:block;}
+    .resultado .nota{font-family:'Fredoka One',cursive;font-size:3.5rem;line-height:1;}
+    .resultado .msg{font-size:1rem;margin:.5rem 0 1rem;opacity:.9;}
+    .btn-refazer{display:inline-block;padding:.6rem 1.4rem;background:#f9a8d4;color:#3b0a1e;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge-hoje">✅ Aula</div>
+  <div>
+    <a href="index.html">← Voltar ao Menu</a>
+    <span class="sep"> | </span>
+    <span style="font-size:.8rem;opacity:.85">5ª Semana · 11/06/2026</span>
+  </div>
+  <div style="width:100%">
+    <div class="aula-titulo">⚙️ Aula 05 — Instalação/Atualização com Segurança</div>
+    <div class="aula-sub">UC III – Sistemas Operacionais · 1º Ano A · Prof. Claudio Amado</div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="objetivo">
+      🎯 <strong>O que vamos aprender hoje:</strong> Entender como instalar/atualizar programas com segurança, julgar se um instalador é confiável e localizar (sem mexer) onde ficam as opções gráficas básicas (resolução/escala/brilho).
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🛡️ Julgamento do Instalador</div>
+    <div class="cards">
+      <div class="card-c"><div class="ic">✅</div><h3>Seguro</h3><p>Site oficial, loja oficial, link conhecido da escola.</p></div>
+      <div class="card-c"><div class="ic">⚠️</div><h3>Suspeito</h3><p>Link encurtado, propaganda “download rápido”, muita pressa.</p></div>
+      <div class="card-c"><div class="ic">⛔</div><h3>Proibido</h3><p>Pedir senha/CPF, anexos estranhos, “ativador/crack”.</p></div>
+      <div class="card-c"><div class="ic">🔄</div><h3>Atualização</h3><p>Preferir atualização pelo próprio app ou loja oficial.</p></div>
+    </div>
+
+    <div class="destaque dica">
+      💡 <strong>Regra rápida:</strong> Se você não sabe de onde veio, <strong>não instala</strong>. Pergunte ao professor.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎨 Opções gráficas (noções)</div>
+    <div class="destaque info">
+      📌 Hoje é só <strong>localizar</strong> (não precisa alterar): onde ficam <strong>resolução</strong>, <strong>escala</strong> e <strong>brilho</strong> no sistema.
+    </div>
+    <ul class="lista">
+      <li><span class="bl">🧭</span><div><strong>Caminho (exemplo):</strong> Configurações → Sistema → Tela</div></li>
+      <li><span class="bl">🧠</span><div><strong>Por que importa?</strong> Tela muito escura/cortada atrapalha estudar; ajuste correto melhora conforto.</div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">📓 Resumo para o Caderno</div>
+    <div class="resumo-box">
+      <h3>✏️ Copie no seu caderno</h3>
+      <div class="resumo-item"><strong>Instalar/atualizar com segurança</strong><p>1) Preferir site/loja oficial.
+2) Desconfiar de “download rápido”, link encurtado e urgência.
+3) Nunca instalar crack/ativador.
+4) Se tiver dúvida, não clicar/instalar e pedir ajuda.</p></div>
+      <div class="resumo-item"><strong>Opções gráficas (noções)</strong><p>Localizar onde ajustar resolução, escala e brilho (ex.: Configurações → Sistema → Tela). Ajuste correto melhora leitura e conforto.</p></div>
+      <button class="btn-copiar" onclick="copiarResumo(this)">📋 Copiar resumo para área de transferência</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-titulo">✏️ Atividade Prática — HOJE (11/06)</div>
+    <ul class="lista">
+      <li><span class="bl">1️⃣</span> Em dupla, classifique 6 situações (cartões) em: <strong>Seguro / Suspeito / Proibido</strong>.</li>
+      <li><span class="bl">2️⃣</span> Escreva as <strong>3 regras de ouro</strong> no caderno.</li>
+      <li><span class="bl">3️⃣</span> No PC, <strong>localize</strong> onde ficam as opções gráficas (resolução/escala/brilho) e anote o caminho.</li>
+      <li><span class="bl">4️⃣</span> Entregável: foto do caderno (ou visto do professor) com <strong>3 regras</strong> + <strong>caminho</strong>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-titulo">🎮 Quiz — Teste seus Conhecimentos!</div>
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🕹️ Quiz da Aula 05</h3>
+        <p>10 perguntas · Instalação/Atualização com Segurança</p>
+      </div>
+      <div class="placar">
+        <div class="placar-item"><div class="num" id="placar-acertos">0</div><div class="lab">✅ Acertos</div></div>
+        <div class="placar-item"><div class="num" id="placar-erros">0</div><div class="lab">❌ Erros</div></div>
+        <div class="placar-item"><div class="num" id="placar-questao">1/10</div><div class="lab">🎯 Questão</div></div>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="prog" style="width:0%"></div></div>
+      <div id="quiz-area">
+        <div class="pergunta-num" id="q-num">Pergunta 1 de 10</div>
+        <div class="pergunta-texto" id="q-texto"></div>
+        <div class="opcoes" id="q-opcoes"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <button class="btn-prox" id="btn-prox" onclick="proxima()">Próxima →</button>
+      </div>
+      <div class="resultado" id="resultado">
+        <div class="nota" id="res-nota"></div>
+        <div class="msg" id="res-msg"></div>
+        <button class="btn-refazer" onclick="iniciarQuiz()">🔄 Refazer Quiz</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const perguntas = [
+  {texto:"Qual é a melhor fonte para baixar um programa?",opcoes:["Qualquer site com 'download rápido'","Site oficial ou loja oficial","Link encurtado enviado no grupo","Um 'ativador/crack'"],certa:1,explicacao:"A fonte mais segura é o site oficial do programa ou uma loja oficial. Evite sites aleatórios e links encurtados."},
+  {texto:"Um sinal comum de instalador suspeito é:",opcoes:["Tela clara e sem anúncios","Pedir para desativar antivírus","Vir da loja oficial","Ser indicado pelo professor"],certa:1,explicacao:"Pedir para desativar antivírus, muita pressa e anúncios demais são sinais de risco."},
+  {texto:"O que fazer se você não tem certeza se um link é seguro?",opcoes:["Clicar para testar","Instalar mesmo assim","Não clicar e pedir orientação","Enviar para todo mundo"],certa:2,explicacao:"Na dúvida, não clique. Peça ajuda ao professor."},
+  {texto:"Qual opção é considerada PROIBIDA?",opcoes:["Loja oficial","Site do fabricante","Crack/ativador","Atualização pelo app"],certa:2,explicacao:"Crack/ativador é proibido: é ilegal e pode trazer vírus."},
+  {texto:"Atualização segura geralmente acontece:",opcoes:["Pelo próprio programa/loja","Por link encurtado","Por anexo de e-mail desconhecido","Por 'otimizador mágico'"],certa:0,explicacao:"Atualize pelo próprio app ou loja oficial."},
+  {texto:"Resolução e escala são exemplos de:",opcoes:["Opções gráficas","Tipo de arquivo","Driver de internet","Senha"],certa:0,explicacao:"Resolução e escala são ajustes visuais da tela."},
+  {texto:"O objetivo de localizar opções gráficas hoje é:",opcoes:["Formatar o computador","Aprender onde ajustar a tela com segurança","Instalar um jogo","Criar uma conta"],certa:1,explicacao:"A ideia é saber onde fica, para ajustar com orientação e melhorar conforto."},
+  {texto:"Link encurtado (ex.: bit.ly) pode ser perigoso porque:",opcoes:["É sempre oficial","Esconde o destino real","Aumenta a velocidade","Desliga o antivírus"],certa:1,explicacao:"Ele pode esconder para onde você será levado. Verifique antes."},
+  {texto:"Qual é uma 'regra de ouro' para instalar programas?",opcoes:["Instalar tudo que aparece","Confiar só em propaganda","Preferir fonte oficial","Passar senha para confirmar"],certa:2,explicacao:"Fonte oficial é a regra mais importante."},
+  {texto:"Em sala/lab, a atitude correta ao ver algo suspeito é:",opcoes:["Clicar rápido","Ignorar e instalar","Chamar o professor","Compartilhar no grupo"],certa:2,explicacao:"Peça orientação. Segurança primeiro."}
+];
+
+let atual=0,acertos=0,erros=0;
+function iniciarQuiz(){atual=0;acertos=0;erros=0;document.getElementById('resultado').classList.remove('show');document.getElementById('quiz-area').style.display='block';document.getElementById('placar-acertos').textContent=0;document.getElementById('placar-erros').textContent=0;renderPergunta();}
+function renderPergunta(){const p=perguntas[atual];document.getElementById('q-num').textContent=`Pergunta ${atual+1} de ${perguntas.length}`;document.getElementById('q-texto').textContent=p.texto;document.getElementById('placar-questao').textContent=`${atual+1}/${perguntas.length}`;document.getElementById('prog').style.width=`${(atual/perguntas.length)*100}%`;document.getElementById('q-feedback').className='feedback';document.getElementById('btn-prox').classList.remove('show');const opc=document.getElementById('q-opcoes');opc.innerHTML='';p.opcoes.forEach((txt,i)=>{const btn=document.createElement('button');btn.className='opcao';btn.textContent=['A','B','C','D'][i]+'. '+txt;btn.onclick=()=>responder(i);opc.appendChild(btn);});}
+function responder(idx){const p=perguntas[atual];const btns=document.querySelectorAll('.opcao');btns.forEach(b=>b.disabled=true);btns[p.certa].classList.add('certa');const fb=document.getElementById('q-feedback');if(idx===p.certa){acertos++;document.getElementById('placar-acertos').textContent=acertos;btns[idx].classList.add('certa');fb.className='feedback show ok';fb.textContent='✅ Correto! '+p.explicacao;}else{erros++;document.getElementById('placar-erros').textContent=erros;btns[idx].classList.add('errada');fb.className='feedback show nok';fb.textContent='❌ Errado. '+p.explicacao;}document.getElementById('btn-prox').classList.add('show');}
+function proxima(){atual++;if(atual>=perguntas.length){mostrarResultado();}else{renderPergunta();}}
+function mostrarResultado(){document.getElementById('quiz-area').style.display='none';const res=document.getElementById('resultado');res.classList.add('show');document.getElementById('prog').style.width='100%';document.getElementById('res-nota').textContent=`${acertos}/10`;const msgs=[[0,4,'😬 Continue estudando! Releia o conteúdo e tente novamente.'],[5,6,'📚 Quase lá! Você está no caminho certo.'],[7,8,'👏 Muito bom! Você entendeu bem o conteúdo.'],[9,10,'🏆 Excelente! Você dominou a aula!']];const m=msgs.find(([mn,mx])=>acertos>=mn&&acertos<=mx);document.getElementById('res-msg').textContent=m[2];}
+function copiarResumo(btn){const texto=`📓 RESUMO — AULA 05: INSTALAÇÃO/ATUALIZAÇÃO COM SEGURANÇA\n\n✅ REGRAS DE OURO\n1) Preferir site/loja oficial.\n2) Desconfiar de urgência, anúncios e links encurtados.\n3) Nunca instalar crack/ativador.\n4) Na dúvida, não clicar e pedir ajuda.\n\n🎨 OPÇÕES GRÁFICAS (NOÇÕES)\nLocalizar onde ajustar resolução, escala e brilho (ex.: Configurações → Sistema → Tela).`;navigator.clipboard.writeText(texto).then(()=>{btn.textContent='✅ Copiado!';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar resumo para área de transferência';btn.classList.remove('copiado');},2500);});}
+
+iniciarQuiz();
+</script>
+
+</body>
+</html>
