@@ -251,21 +251,39 @@
 
     .s5 .card-icon { background: rgba(219,39,119,.15); }
     .s5 .card-meta .semana { color: #f9a8d4; }
+    .s5 .btn-aula { background: #db2777; color: white; }
+    .s5 .btn-aula:hover { background: #be185d; }
 
     .s6 .card-icon { background: rgba(8,145,178,.15); }
     .s6 .card-meta .semana { color: #67e8f9; }
+    .s6 .btn-aula { background: #0891b2; color: white; }
+    .s6 .btn-aula:hover { background: #0e7490; }
 
     .s7 .card-icon { background: rgba(37,99,235,.15); }
     .s7 .card-meta .semana { color: #93c5fd; }
+    .s7 .btn-aula { background: #2563eb; color: white; }
+    .s7 .btn-aula:hover { background: #1d4ed8; }
 
     .s8 .card-icon { background: rgba(22,163,74,.15); }
     .s8 .card-meta .semana { color: #86efac; }
+    .s8 .btn-aula { background: #16a34a; color: white; }
+    .s8 .btn-aula:hover { background: #15803d; }
 
     .s9 .card-icon { background: rgba(234,88,12,.15); }
     .s9 .card-meta .semana { color: #fdba74; }
+    .s9 .btn-aula { background: #ea580c; color: white; }
+    .s9 .btn-aula:hover { background: #c2410c; }
 
     .s10 .card-icon { background: rgba(124,58,237,.15); }
     .s10 .card-meta .semana { color: #c4b5fd; }
+    .s10 .btn-aula { background: #7c3aed; color: white; }
+    .s10 .btn-aula:hover { background: #6d28d9; }
+
+    /* RAV */
+    .rav .card-icon { background: rgba(254,249,195,.15); }
+    .rav .card-meta .semana { color: #fde68a; }
+    .rav .btn-aula { background: #f59e0b; color: white; }
+    .rav .btn-aula:hover { background: #d97706; }
 
     /* FOOTER */
     footer {
@@ -289,16 +307,16 @@
   <div class="progress-bar-wrap">
     <div class="progress-label">
       <span>📚 Progresso do bimestre</span>
-      <span>4 de 10 aulas</span>
+      <span>10 de 10 aulas</span>
     </div>
-    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
   </div>
 </div>
 
 <main>
   <div class="secao-titulo">
     <h2>📅 Aulas do 2º Bimestre</h2>
-    <p>Clique em uma aula disponível para acessar o conteúdo, resumo e quiz</p>
+    <p>Clique em uma aula para acessar conteúdo, resumo e quiz</p>
   </div>
 
   <div class="grid">
@@ -374,13 +392,13 @@
         <p>Criar estrutura de pastas, organizar arquivos na nuvem. Diferença entre link e arquivo.</p>
       </div>
       <div class="card-footer">
-        <span class="tag-hoje">⭐ Hoje</span>
+        <span class="tag-revisao">🔁 Revisão</span>
         <a class="btn-aula" href="aula04.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 5 EM BREVE -->
-    <div class="card s5 em-breve">
+    <!-- AULA 5 -->
+    <div class="card s5">
       <div class="card-top">
         <div class="card-icon">⚙️</div>
         <div class="card-meta">
@@ -390,15 +408,16 @@
       </div>
       <div class="card-body">
         <h3>Instalação / Atualização com Segurança</h3>
-        <p>Julgamento do instalador, 3 regras de ouro e opções gráficas do sistema.</p>
+        <p>Julgamento do instalador, 3 regras de ouro e noções de opções gráficas do sistema.</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula05.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 6 EM BREVE -->
-    <div class="card s6 em-breve">
+    <!-- AULA 6 -->
+    <div class="card s6">
       <div class="card-top">
         <div class="card-icon">📊</div>
         <div class="card-meta">
@@ -411,12 +430,13 @@
         <p>Observar CPU, Memória e Disco. Tabela antes/depois. Registrar espaço total e livre.</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula06.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 7 EM BREVE -->
-    <div class="card s7 em-breve">
+    <!-- AULA 7 -->
+    <div class="card s7">
       <div class="card-top">
         <div class="card-icon">🧪</div>
         <div class="card-meta">
@@ -426,15 +446,16 @@
       </div>
       <div class="card-body">
         <h3>Prática Avaliativa</h3>
-        <p>Armazenamento externo: formatação e cópia. Revisão de arquivos e pastas.</p>
+        <p>Armazenamento externo: cópia e conceito de formatação. Revisão de arquivos e pastas.</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula07.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 8 EM BREVE -->
-    <div class="card s8 em-breve">
+    <!-- AULA 8 -->
+    <div class="card s8">
       <div class="card-top">
         <div class="card-icon">🖥️</div>
         <div class="card-meta">
@@ -447,12 +468,13 @@
         <p>Conceito de VM. Checklist RAM/Disco/ISO/Rede/Snapshot. Criar VM vazia ou simular.</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula08.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 9 EM BREVE -->
-    <div class="card s9 em-breve">
+    <!-- AULA 9 -->
+    <div class="card s9">
       <div class="card-top">
         <div class="card-icon">🐧</div>
         <div class="card-meta">
@@ -461,16 +483,17 @@
         </div>
       </div>
       <div class="card-body">
-        <h3>GNU/Linux — Instalação (visão geral)</h3>
+        <h3>GNU/Linux — Instalação (visão orientada)</h3>
         <p>Etapas por ISO, ficha de escolhas, parágrafo sobre VM. Uma janela para o mundo open source!</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula09.html">Acessar →</a>
       </div>
     </div>
 
-    <!-- AULA 10 EM BREVE -->
-    <div class="card s10 em-breve">
+    <!-- AULA 10 -->
+    <div class="card s10">
       <div class="card-top">
         <div class="card-icon">🗺️</div>
         <div class="card-meta">
@@ -483,8 +506,48 @@
         <p>Tabela comparativa Android/iOS + administração Linux + introdução à lógica/Arduino. Mapa mental final!</p>
       </div>
       <div class="card-footer">
-        <span class="btn-breve"><span class="lock-icon">🔒</span>Em breve</span>
+        <span class="tag-nova">✅ Disponível</span>
+        <a class="btn-aula" href="aula10.html">Acessar →</a>
       </div>
+    </div>
+
+  </div>
+
+  <div class="secao-titulo">
+    <h2>🧩 RAV — Recuperar para Avançar</h2>
+    <p>Revisões leves + simulado curto (conforme calendário)</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card rav">
+      <div class="card-top"><div class="card-icon">🟢</div><div class="card-meta"><div class="semana">RAV 01</div><div class="data">08 de julho de 2026</div></div></div>
+      <div class="card-body"><h3>Revisão: Extensões e Apps</h3><p>Extensão → tipo → app. Tabela rápida + quiz.</p></div>
+      <div class="card-footer"><span class="tag-nova">✅ Disponível</span><a class="btn-aula" href="rav01.html">Acessar →</a></div>
+    </div>
+
+    <div class="card rav">
+      <div class="card-top"><div class="card-icon">🟠</div><div class="card-meta"><div class="semana">RAV 02</div><div class="data">09 de julho de 2026</div></div></div>
+      <div class="card-body"><h3>Revisão: Internet com Ética</h3><p>3 riscos + 3 cuidados. Ficha refeita + quiz.</p></div>
+      <div class="card-footer"><span class="tag-nova">✅ Disponível</span><a class="btn-aula" href="rav02.html">Acessar →</a></div>
+    </div>
+
+    <div class="card rav">
+      <div class="card-top"><div class="card-icon">🟣</div><div class="card-meta"><div class="semana">RAV 03</div><div class="data">10 de julho de 2026</div></div></div>
+      <div class="card-body"><h3>Revisão: Nuvem + Instalação Segura</h3><p>Checklist de nuvem e 3 regras de ouro.</p></div>
+      <div class="card-footer"><span class="tag-nova">✅ Disponível</span><a class="btn-aula" href="rav03.html">Acessar →</a></div>
+    </div>
+
+    <div class="card rav">
+      <div class="card-top"><div class="card-icon">🔵</div><div class="card-meta"><div class="semana">RAV 04</div><div class="data">13 de julho de 2026</div></div></div>
+      <div class="card-body"><h3>Revisão: Desempenho + Disco</h3><p>Tabela antes/depois + quiz.</p></div>
+      <div class="card-footer"><span class="tag-nova">✅ Disponível</span><a class="btn-aula" href="rav04.html">Acessar →</a></div>
+    </div>
+
+    <div class="card rav">
+      <div class="card-top"><div class="card-icon">🟪</div><div class="card-meta"><div class="semana">RAV 05</div><div class="data">14 de julho de 2026</div></div></div>
+      <div class="card-body"><h3>Simulado do 2º Bimestre</h3><p>10 questões com correção comentada.</p></div>
+      <div class="card-footer"><span class="tag-nova">✅ Disponível</span><a class="btn-aula" href="rav05.html">Acessar →</a></div>
     </div>
 
   </div>
